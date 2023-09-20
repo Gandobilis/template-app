@@ -18,14 +18,13 @@ return new class extends Migration {
 
         Schema::create('banner_translations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('banner_id');
+            $table->foreignId('banner_id')->constrained()->cascadeOnDelete();
             $table->string('locale')->index();
             $table->string('title');
             $table->text('content');
             $table->string('link');
 
             $table->unique(['banner_id', 'locale']);
-            $table->foreign('banner_id')->references('id')->on('banners')->onDelete('cascade');
         });
     }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class SectionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "image" => "mimes:png,jpg",
-            "email" => "required|email|max:255|unique:users,email",
-            "name" => "required|string|max:255",
-            "password" => "required|string|min:8|max:128",
-            'active' => 'boolean',
+            //
         ];
     }
 }

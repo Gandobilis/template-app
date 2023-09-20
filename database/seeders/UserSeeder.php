@@ -16,7 +16,6 @@ class UserSeeder extends Seeder
             'name' => 'Lasha Gagnidze',
             'email' => 'lashadeveloper@gmail.com',
             'password' => bcrypt('password'),
-            'role' => 'admin'
         ];
         User::insert($record);
     }

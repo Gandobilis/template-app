@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UserRequest;
+use App\Http\Requests\Admin\UserRequest;
 use App\Models\User;
 use App\Services\FileUploadService;
 use Illuminate\Http\Response;
