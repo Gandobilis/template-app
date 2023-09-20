@@ -15,6 +15,18 @@ return new class extends Migration {
             $table->string('type')->index();
             $table->timestamps();
         });
+
+        Schema::create('banner_translations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('banner_id')->unsigned();
+            $table->string('locale')->index();
+            $table->string('title');
+            $table->text('content');
+            $table->string('link');
+
+            $table->unique(['banner_id', 'locale']);
+            $table->foreign('banner_id')->references('id')->on('banners')->onDelete('cascade');
+        });
     }
 
     /**
@@ -22,6 +34,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
+        Schema::dropIfExists('banner_translations');
         Schema::dropIfExists('banners');
     }
 };

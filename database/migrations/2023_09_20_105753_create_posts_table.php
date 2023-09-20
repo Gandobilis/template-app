@@ -15,6 +15,19 @@ return new class extends Migration {
             $table->foreignId('section_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
+
+        Schema::create('post_translations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('post_id')->unsigned();
+            $table->string('locale')->index();
+            $table->string('title');
+            $table->text('desc');
+            $table->text('content');
+            $table->string('slug');
+
+            $table->unique(['post_id', 'locale']);
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+        });
     }
 
     /**
@@ -22,6 +35,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
+        Schema::dropIfExists('post_translations');
         Schema::dropIfExists('posts');
     }
 };

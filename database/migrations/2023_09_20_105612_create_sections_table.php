@@ -15,6 +15,18 @@ return new class extends Migration {
             $table->string('type');
             $table->timestamps();
         });
+
+        Schema::create('section_translations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('section_id')->unsigned();
+            $table->string('locale')->index();
+            $table->string('title');
+            $table->text('desc');
+            $table->string('slug');
+
+            $table->unique(['section_id', 'locale']);
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+        });
     }
 
     /**
@@ -22,6 +34,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
+        Schema::dropIfExists('section_translations');
         Schema::dropIfExists('sections');
     }
 };
