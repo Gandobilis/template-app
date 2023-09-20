@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Section;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Section extends Model
+class SectionTranslation extends Model
 {
     use HasFactory;
 
-    public $translatedAttributes = [
+    public $timestamps = false;
+
+    protected $fillable = [
         'title',
         'desc',
         'slug'
-    ];
-    protected $fillable = [
-        'image',
-        'type'
     ];
 }

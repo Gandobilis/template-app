@@ -10,6 +10,7 @@ class BannerTranslation extends Model
     use HasFactory;
 
     public $timestamps = false;
+
     protected $fillable = [
         'title',
         'content',

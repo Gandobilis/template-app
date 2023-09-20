@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Post;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SectionTranslation extends Model
+class PostTranslation extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'title',
-        'desc',
-        'slug'
+      'title',
+      'desc',
+      'content',
+      'slug'
     ];
 }
