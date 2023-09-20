@@ -17,8 +17,8 @@ return new class extends Migration {
         });
 
         Schema::create('section_translations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('section_id')->unsigned();
+            $table->id();
+            $table->unsignedBigInteger('section_id');
             $table->string('locale')->index();
             $table->string('title');
             $table->text('desc');

@@ -17,8 +17,8 @@ return new class extends Migration {
         });
 
         Schema::create('banner_translations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('banner_id')->unsigned();
+            $table->id();
+            $table->unsignedBigInteger('banner_id');
             $table->string('locale')->index();
             $table->string('title');
             $table->text('content');

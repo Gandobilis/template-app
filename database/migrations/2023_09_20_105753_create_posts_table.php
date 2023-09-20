@@ -17,8 +17,8 @@ return new class extends Migration {
         });
 
         Schema::create('post_translations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('post_id')->unsigned();
+            $table->id();
+            $table->unsignedBigInteger('post_id');
             $table->string('locale')->index();
             $table->string('title');
             $table->text('desc');
