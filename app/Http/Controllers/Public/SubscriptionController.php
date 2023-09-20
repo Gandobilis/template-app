@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Public\Subscription;
+namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
-use App\Models\Subscription\Subscription;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller

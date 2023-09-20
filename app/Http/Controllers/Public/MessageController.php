@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Post;
+namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
-use App\Models\Post\Post;
+use App\Models\Message;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +35,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Message $message)
     {
         //
     }
@@ -43,7 +43,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit(Message $message)
     {
         //
     }
@@ -51,7 +51,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Message $message)
     {
         //
     }
@@ -59,7 +59,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Message $message)
     {
         //
     }

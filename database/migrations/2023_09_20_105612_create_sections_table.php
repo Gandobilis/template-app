@@ -12,7 +12,6 @@ return new class extends Migration {
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->string('image');
             $table->string('type');
             $table->timestamps();
         });

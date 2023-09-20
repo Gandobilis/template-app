@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Public\Message;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Message\Message;
+use App\Models\Section\Section;
 use Illuminate\Http\Request;
 
-class MessageController extends Controller
+class SectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +35,7 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Message $message)
+    public function show(Section $section)
     {
         //
     }
@@ -43,7 +43,7 @@ class MessageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Message $message)
+    public function edit(Section $section)
     {
         //
     }
@@ -51,7 +51,7 @@ class MessageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Message $message)
+    public function update(Request $request, Section $section)
     {
         //
     }
@@ -59,7 +59,7 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Message $message)
+    public function destroy(Section $section)
     {
         //
     }

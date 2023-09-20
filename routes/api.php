@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\Auth\AuthController;
-use App\Http\Controllers\Admin\Banner\BannerController;
-use App\Http\Controllers\Admin\Message\MessageController;
-use App\Http\Controllers\Admin\Post\PostController;
-use App\Http\Controllers\Admin\Section\SectionController;
-use App\Http\Controllers\Admin\Subscription\SubscriptionController;
-use App\Http\Controllers\Admin\User\UserController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*

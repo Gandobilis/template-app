@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Banner;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Banner\Banner;
+use App\Models\Message;
 use Illuminate\Http\Request;
 
-class BannerController extends Controller
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +35,7 @@ class BannerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Banner $banner)
+    public function show(Message $message)
     {
         //
     }
@@ -43,7 +43,7 @@ class BannerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Banner $banner)
+    public function edit(Message $message)
     {
         //
     }
@@ -51,7 +51,7 @@ class BannerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Banner $banner)
+    public function update(Request $request, Message $message)
     {
         //
     }
@@ -59,7 +59,7 @@ class BannerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Banner $banner)
+    public function destroy(Message $message)
     {
         //
     }
