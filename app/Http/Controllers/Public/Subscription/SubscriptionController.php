@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Public\Subscription;
 
-use App\Models\Message\Message;
+use App\Http\Controllers\Controller;
+use App\Models\Subscription\Subscription;
 use Illuminate\Http\Request;
 
-class MessageController extends Controller
+class SubscriptionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,7 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Message $message)
+    public function show(Subscription $subscription)
     {
         //
     }
@@ -42,7 +43,7 @@ class MessageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Message $message)
+    public function edit(Subscription $subscription)
     {
         //
     }
@@ -50,7 +51,7 @@ class MessageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Message $message)
+    public function update(Request $request, Subscription $subscription)
     {
         //
     }
@@ -58,7 +59,7 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Message $message)
+    public function destroy(Subscription $subscription)
     {
         //
     }

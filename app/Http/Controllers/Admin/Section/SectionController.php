@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Section;
 
-use App\Models\Banner\Banner;
+use App\Http\Controllers\Controller;
+use App\Models\Section\Section;
 use Illuminate\Http\Request;
 
-class BannerController extends Controller
+class SectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,7 @@ class BannerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Banner $banner)
+    public function show(Section $section)
     {
         //
     }
@@ -42,7 +43,7 @@ class BannerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Banner $banner)
+    public function edit(Section $section)
     {
         //
     }
@@ -50,7 +51,7 @@ class BannerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Banner $banner)
+    public function update(Request $request, Section $section)
     {
         //
     }
@@ -58,7 +59,7 @@ class BannerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Banner $banner)
+    public function destroy(Section $section)
     {
         //
     }
