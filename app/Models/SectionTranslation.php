@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Section extends Model
+class SectionTranslation extends Model
 {
     use HasFactory;
 
-    public $translatedAttributes = [
+    protected $fillable = [
         'title',
         'desc',
         'slug'
-    ];
-    protected $fillable = [
-        'image',
-        'type'
     ];
 }
