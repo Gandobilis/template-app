@@ -16,7 +16,7 @@ class SectionController extends Controller
 
     public function index(): Response
     {
-        $sections = Section::with(['image', 'posts'])->get();
+        $sections = Section::with(['image'])->get();
 
         return response([
             'sections' => $sections
