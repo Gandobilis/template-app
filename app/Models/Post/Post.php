@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Post extends Model implements TranslatableContract
 {
@@ -24,5 +25,10 @@ class Post extends Model implements TranslatableContract
     public function section(): BelongsTo
     {
         return $this->belongsTo(Section::class);
+    }
+
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageable')->take(1);
     }
 }

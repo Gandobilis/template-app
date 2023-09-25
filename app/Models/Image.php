@@ -15,10 +15,12 @@ class Image extends Model
         return $this->morphTo();
     }
 
+    protected $appends = ['full_image'];
+
     protected function fullImage(): Attribute
     {
         return Attribute::make(
-            get: fn(string $image) => url('/') . '/storage/' . $image
+            get: fn() => url('/') . '/storage/' . $this->image
         );
     }
 }

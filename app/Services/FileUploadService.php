@@ -3,13 +3,14 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class FileUploadService
 {
     public function uploadFile($file, $storagePath = 'images'): string
     {
         $originalFileName = $file->getClientOriginalName();
-        $newFileName = time() . $originalFileName;
+        $newFileName = Str::random() . $originalFileName;
         return $file->storeAs($storagePath, $newFileName, 'public');
     }
 

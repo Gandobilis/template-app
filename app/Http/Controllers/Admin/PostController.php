@@ -3,48 +3,108 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\PostRequest;
 use App\Models\Post\Post;
-use Illuminate\Http\Request;
+use App\Services\FileUploadService;
+use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(public FileUploadService $fileUploadService)
     {
-        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function index(): Response
     {
-        //
+        $posts = Post::with('image')->get();
+
+        return response([
+            'posts' => $posts
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
+    public function show(Post $post): Response
     {
-        //
+        $post->load('images');
+
+        return response([
+            'post' => $post
+        ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Post $post)
+    public function store(PostRequest $request): Response
     {
-        //
+        $data = $request->validated();
+        $images = $data['images'] ?? [];
+        unset($data['images']);
+
+        $post = Post::create($data);
+
+        $uploadedImages = [];
+
+        foreach ($images as $image) {
+            $uploadedImages[] = $this->fileUploadService->uploadFile($image, 'posts');
+        }
+
+        $post->images()->createMany(array_map(function ($image) {
+            return ['image' => $image];
+        }, $uploadedImages));
+
+        $post->load('images');
+
+        return response([
+            'message' => 'Post created.',
+            'post' => $post
+        ], 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Post $post)
+    public function update(PostRequest $request, Post $post): Response
     {
-        //
+        $data = $request->validated();
+        $images = $data['images'] ?? [];
+        unset($data['images']);
+
+        $post->update($data);
+
+        $uploadedImages = [];
+
+        foreach ($images as $image) {
+            $uploadedImages[] = $this->fileUploadService->uploadFile($image, 'posts');
+        }
+
+        $images = $post->images;
+
+        foreach ($images as $image) {
+            $this->fileUploadService->deleteFile($image['image']);
+        }
+
+        $post->images()->delete();
+
+        $post->images()->createMany(array_map(function ($image) {
+            return ['image' => $image];
+        }, $uploadedImages));
+
+        $post->load('images');
+
+        return response([
+            'message' => 'Post updated.',
+            'post' => $post
+        ], 200);
+    }
+
+    public function destroy(Post $post): Response
+    {
+        $images = $post->images;
+
+        foreach ($images as $image) {
+            $this->fileUploadService->deleteFile($image['image']);
+        }
+
+        $post->images()->delete();
+        $post->delete();
+
+        return response([
+            'message' => 'Post deleted.'
+        ], 200);
     }
 }
