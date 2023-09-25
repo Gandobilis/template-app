@@ -3,6 +3,6 @@
 return [
     'types' => [
         'news',
-        'blog',
+        'text',
     ]
 ];

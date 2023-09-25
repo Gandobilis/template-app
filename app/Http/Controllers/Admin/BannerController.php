@@ -3,48 +3,75 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\BannerRequest;
 use App\Models\Banner\Banner;
-use Illuminate\Http\Request;
+use App\Services\FileUploadService;
+use Illuminate\Http\Response;
 
 class BannerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(public FileUploadService $fileUploadService)
     {
-        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function index(): Response
     {
-        //
+        $banners = Banner::with(['images' => function ($query) {
+            $query->limit(1);
+        }])->get();
+
+        return response([
+            'banners' => $banners
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Banner $banner)
+    public function show(Banner $banner): Response
     {
-        //
+        $banner = Banner::with('images');
+
+        return response([
+            'banner' => $banner
+        ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Banner $banner)
+    public function store(BannerRequest $request): Response
     {
-        //
+        $data = $request->validated();
+        $images = $data['images'];
+        unset($data['images']);
+        $banner = Banner::create($data);
+
+        foreach ($images as $image) {
+            $_image = $this->fileUploadService->uploadFile($image, 'banners');
+            $banner->images()->create([
+                'image' => $_image
+            ]);
+        }
+        return response([
+            'message' => 'Banner created.',
+            'banner' => $banner
+        ], 201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Banner $banner)
+    public function update(BannerRequest $request, Banner $banner): Response
     {
-        //
+        $data = $request->validated();
+        $banner->update($data);
+        return response([
+            'message' => 'Banner updated.',
+            'banner' => $banner
+        ], 200);
+    }
+
+    public function destroy(Banner $banner): Response
+    {
+        $images = $banner->images;
+        foreach ($images as $image) {
+            $this->fileUploadService->deleteFile($image);
+        }
+        $banner->delete();
+        return response([
+            'message' => 'Banner deleted.'
+        ], 200);
     }
 }

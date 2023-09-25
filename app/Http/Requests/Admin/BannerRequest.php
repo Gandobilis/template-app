@@ -21,8 +21,18 @@ class BannerRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'type' => 'required|string|max:255',
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg',
         ];
+
+        foreach (config('translatable.locales') as $locale) {
+            $rules["$locale.title"] = 'required|string|max:255';
+            $rules["$locale.content"] = 'required|string';
+            $rules["$locale.link"] = 'required|string|max:255';
+        }
+
+        return $rules;
     }
 }
