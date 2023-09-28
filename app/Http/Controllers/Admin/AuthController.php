@@ -28,6 +28,7 @@ class AuthController extends Controller
             $token = auth()->user()->createToken('TemplateAppApiToken')->plainTextToken;
 
             return response([
+                'message' => 'Logged in.',
                 'user' => $user,
                 'access_token' => $token,
             ], ResponseAlias::HTTP_OK);
@@ -39,7 +40,7 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
 
         return response([
-            'message' => 'Successfully logged out.'
+            'message' => 'Logged out.',
         ], ResponseAlias::HTTP_OK);
     }
 }

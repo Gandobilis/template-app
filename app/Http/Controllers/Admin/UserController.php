@@ -7,10 +7,11 @@ use App\Http\Requests\Admin\UserRequest;
 use App\Models\User;
 use App\Services\FileUploadService;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class UserController extends Controller
 {
-    public function __construct(public FileUploadService $fileUploadService)
+    public function __construct(private readonly FileUploadService $fileUploadService)
     {
     }
 
@@ -19,11 +20,11 @@ class UserController extends Controller
      */
     public function index(): Response
     {
-        $users = User::all();
+        $users = User::with('image')->get();
 
         return response([
             'users' => $users
-        ]);
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -32,12 +33,17 @@ class UserController extends Controller
     public function store(UserRequest $request): Response
     {
         $data = $request->validated();
-        $data['image'] = $this->fileUploadService->uploadFile($data['image'], 'users/images');
+        $image = $this->fileUploadService->uploadFile($data['image'], 'users');
+        unset($data['image']);
 
         $user = User::create($data);
+        $user->image()->create(['image' => $image]);
+        $user->load('image');
+
         return response([
+            'message' => 'User created.',
             'user' => $user
-        ], 201);
+        ], ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -45,9 +51,12 @@ class UserController extends Controller
      */
     public function show(User $user): Response
     {
+        $user->load('image');
+
         return response([
+            'message' => 'User created.',
             'user' => $user
-        ]);
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -57,15 +66,20 @@ class UserController extends Controller
     {
         $data = $request->validated();
         if (isset($data['image'])) {
-            $data['image'] = $this->fileUploadService->uploadFile($user->image, 'users/images');
-            $this->fileUploadService->deleteFile($user->image);
+            $this->fileUploadService->deleteFile($user->image->image);
+
+            $image = $this->fileUploadService->uploadFile($data['image'], 'users');
+            $user->image()->update(['image' => $image]);
         }
 
+        unset($data['image']);
         $user->update($data);
+        $user->load('image');
 
         return response([
+            'message' => 'User updated.',
             'user' => $user
-        ]);
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -73,12 +87,13 @@ class UserController extends Controller
      */
     public function destroy(User $user): Response
     {
+        $this->fileUploadService->deleteFile($user->image->image);
         $user->image->delete();
         $user->delete();
 
         return response([
-            'message' => 'user deleted'
-        ]);
+            'message' => 'User deleted.'
+        ], ResponseAlias::HTTP_OK); // ResponseAlias::HTTP_NO_CONTENT if the response is empty :)
     }
 
     /**
@@ -87,11 +102,12 @@ class UserController extends Controller
     public function activate(User $user): Response
     {
         $user->update(['active' => true]);
+        $user->load('image');
 
         return response([
-            'message' => 'user activated successfully',
+            'message' => 'User activated.',
             'user' => $user
-        ]);
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -100,10 +116,11 @@ class UserController extends Controller
     public function deactivate(User $user): Response
     {
         $user->update(['active' => false]);
+        $user->load('image');
 
         return response([
-            'message' => 'user deactivated successfully',
+            'message' => 'User deactivated.',
             'user' => $user
-        ]);
+        ], ResponseAlias::HTTP_OK);
     }
 }
