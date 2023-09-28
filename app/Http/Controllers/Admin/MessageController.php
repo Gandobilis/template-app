@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\MessageRequest;
 use App\Models\Message;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -13,10 +13,13 @@ class MessageController extends Controller
     /**
      * Display a listing of the messages.
      */
-    public function index()
+    public function index(): Response
     {
         $messages = Message::all();
-        return response(['messages' => $messages], Response::HTTP_OK);
+
+        return response([
+            'data' => $messages
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
