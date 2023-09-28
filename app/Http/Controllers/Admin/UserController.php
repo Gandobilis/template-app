@@ -73,7 +73,7 @@ class UserController extends Controller
      */
     public function destroy(User $user): Response
     {
-        $this->fileUploadService->deleteFile($user->image);
+        $user->image->delete();
         $user->delete();
 
         return response([

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LoginRequest;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class AuthController extends Controller
 {
@@ -15,31 +15,31 @@ class AuthController extends Controller
 
         if (!auth()->attempt($credentials)) {
             return response([
-                'message' => 'Invalid credentials'
-            ], 401);
+                'message' => 'Invalid credentials.'
+            ], ResponseAlias::HTTP_UNAUTHORIZED);
         } else if (!auth()->user()->active) {
             auth()->logout();
 
             return response([
-                'message' => 'Inactive account'
-            ], 403);
+                'message' => 'Inactive account.'
+            ], ResponseAlias::HTTP_FORBIDDEN);
         } else {
             $user = auth()->user();
-            $token = auth()->user()->createToken('ApiToken')->plainTextToken;
+            $token = auth()->user()->createToken('TemplateAppApiToken')->plainTextToken;
 
             return response([
                 'user' => $user,
                 'access_token' => $token,
-            ], 200);
+            ], ResponseAlias::HTTP_OK);
         }
     }
 
-    public function logout(Request $request): Response
+    public function logout(): Response
     {
         auth()->user()->tokens()->delete();
 
         return response([
-            'message' => 'Successfully logged out'
-        ], 200);
+            'message' => 'Successfully logged out.'
+        ], ResponseAlias::HTTP_OK);
     }
 }
