@@ -30,8 +30,7 @@ Route::middleware('locale')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-        Route::apiResource('users', UserController::class)->except('store')->names('admin.users');
-        Route::apiResource('users', UserController::class)->only('store')->middleware('role:admin')->names('admin.users');
+        Route::apiResource('users', UserController::class)->names('admin.users');
         Route::put('users/{user}/activate', [UserController::class, 'activate'])->name('admin.users.activate');
         Route::put('users/{user}/deactivate', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
 
