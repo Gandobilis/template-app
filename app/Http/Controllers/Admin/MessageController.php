@@ -22,7 +22,7 @@ class MessageController extends Controller
     /**
      * Store a newly created message in the database.
      */
-    public function store(MessageRequest $request)
+    public function store(MessageRequest $request):Response
     {
         $data = $request->validated();
 
@@ -33,9 +33,11 @@ class MessageController extends Controller
     /**
      * Display the specified message.
      */
-    public function show(Message $message)
+    public function show(Message $message): Response
     {
-        return response(['message' => $message], Response::HTTP_OK);
+        return response([
+            'data' => $message
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**

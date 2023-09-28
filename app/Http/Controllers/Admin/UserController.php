@@ -54,7 +54,6 @@ class UserController extends Controller
         $user->load('image');
 
         return response([
-            'message' => 'User created.',
             'user' => $user
         ], ResponseAlias::HTTP_OK);
     }
