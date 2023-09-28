@@ -13,14 +13,6 @@ class Image extends Model
 
     protected $appends = ['full_image'];
 
-//    protected static function booted()
-//    {
-//        static::deleted(function (Image $image){
-//            $fileUploadService = new FileUploadService();
-//            $fileUploadService->deleteFile($image->image);
-//        });
-//    }
-
     public function imageable(): MorphTo
     {
         return $this->morphTo();

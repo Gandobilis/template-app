@@ -7,7 +7,7 @@ use App\Services\FileUploadService;
 
 class ImageObserver
 {
-    public function __construct(public FileUploadService $fileUploadService)
+    public function __construct(private readonly FileUploadService $fileUploadService)
     {
     }
 
