@@ -22,12 +22,16 @@ class MessageController extends Controller
     /**
      * Store a newly created message in the database.
      */
-    public function store(MessageRequest $request):Response
+    public function store(MessageRequest $request): Response
     {
         $data = $request->validated();
 
         $message = Message::create($data);
-        return response(['message' => $message], Response::HTTP_CREATED);
+
+        return response([
+            'message' => 'Message created.',
+            'data' => $message
+        ], ResponseAlias::HTTP_CREATED);
     }
 
     /**
