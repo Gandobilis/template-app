@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 
 class BannerController extends Controller
 {
-    public function __construct(public FileUploadService $fileUploadService)
+    public function __construct(private readonly FileUploadService $fileUploadService)
     {
     }
 
