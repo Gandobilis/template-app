@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\MessageController as MessagesAdminController;
+use App\Http\Controllers\Admin\MessageController as MessageAdminController;
+use App\Http\Controllers\Public\MessageController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SubscriptionController;
@@ -27,7 +28,7 @@ Route::middleware('locale')->group(function () {
 
     Route::post('messages', [MessageController::class, 'message'])->name('message');
 
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
         Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
         Route::apiResource('users', UserController::class)->names('admin.users');
@@ -40,6 +41,6 @@ Route::middleware('locale')->group(function () {
 
         Route::apiResource('sections', SectionController::class)->names('admin.sections');
 
-        Route::apiResource('messages', MessagesAdminController::class)->names('admin.messages');
+        Route::apiResource('messages', MessageAdminController::class)->names('admin.messages');
     });
 });
