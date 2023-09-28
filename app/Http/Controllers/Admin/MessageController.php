@@ -41,12 +41,16 @@ class MessageController extends Controller
     /**
      * Update the specified message in the database.
      */
-    public function update(MessageRequest $request, Message $message)
+    public function update(MessageRequest $request, Message $message): Response
     {
         $data = $request->validated();
 
         $message->update($data);
-        return response(['message' => $message], Response::HTTP_OK);
+
+        return response([
+            'message' => 'Message updated.',
+            'data' => $message
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
