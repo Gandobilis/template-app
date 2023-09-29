@@ -31,13 +31,13 @@ class Section extends Model implements TranslatableContract
         return $this->morphMany(Image::class, 'imageable');
     }
 
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
-    }
-
-    public function image(): MorphOne
-    {
-        return $this->morphOne(Image::class, 'imageable')->take(1);
     }
 }
