@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Public\Subscription\SubscriptionRequest;
 use App\Http\Requests\Public\Subscription\UpdateSubscriptionRequest;
 use App\Models\Subscription;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -15,7 +14,7 @@ class SubscriptionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function subscribe(SubscriptionRequest $request, Subscription $subscription): Response
+    public function subscribe(SubscriptionRequest $request): Response
     {
         $data = $request->validated();
 

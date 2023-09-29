@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Models\Banner\Banner;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class BannerController extends Controller
 {
@@ -14,7 +15,7 @@ class BannerController extends Controller
 
         return response([
             'banners' => $banners
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function show(Banner $banner): Response
@@ -23,6 +24,6 @@ class BannerController extends Controller
 
         return response([
             'banner' => $banner
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 }
