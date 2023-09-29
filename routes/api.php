@@ -24,8 +24,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('locale')->group(function () {
     Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 
-    Route::post('subscribe/{subscription}', [SubscriptionController::class, 'subscribe'])->name('subscribe');
-    Route::post('unsubscribe/{subscription}', [SubscriptionController::class, 'unsubscribe'])->name('unsubscribe');
+    Route::post('subscription/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
+    Route::put('subscription/unsubscribe/{subscription}', [SubscriptionController::class, 'unsubscribe'])->name('unsubscribe');
 
     Route::post('messages', [MessageController::class, 'message'])->name('message');
 
