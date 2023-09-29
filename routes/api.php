@@ -7,7 +7,7 @@ use App\Http\Controllers\Public\MessageController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\SectionController as SubscriptionAdminController;
+use App\Http\Controllers\Admin\SubscriptionController as SubscriptionAdminController;
 use App\Http\Controllers\Public\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 

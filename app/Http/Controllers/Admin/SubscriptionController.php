@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Subscription\SubscriptionRequest;
+use App\Http\Requests\Admin\Subscription\UpdateSubscriptionRequest;
 use App\Models\Subscription;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -25,9 +26,16 @@ class SubscriptionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): Response
+    public function store(SubscriptionRequest $request): Response
     {
-        $subscription =
+        $data = $request->validated();
+
+        $subscription = Subscription::create($data);
+
+        return response([
+            'message' => 'Subscription created.',
+            'subscription' => $subscription
+        ], ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -35,16 +43,25 @@ class SubscriptionController extends Controller
      */
     public function show(Subscription $subscription): Response
     {
-        //
+        return response([
+            'subscription' => $subscription
+        ], ResponseAlias::HTTP_OK);
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Subscription $subscription): Response
+    public function update(UpdateSubscriptionRequest $request, Subscription $subscription): Response
     {
-        //
+        $data = $request->validated();
+
+        $subscription->update($data);
+
+        return response([
+            'message' => 'Subscription updated.',
+            'subscription' => $subscription
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -52,6 +69,10 @@ class SubscriptionController extends Controller
      */
     public function destroy(Subscription $subscription): Response
     {
-        //
+        $subscription->delete();
+
+        return response([
+            'message' => 'Subscription deleted.',
+        ], ResponseAlias::HTTP_OK);
     }
 }

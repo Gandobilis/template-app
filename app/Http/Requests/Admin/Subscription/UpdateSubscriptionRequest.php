@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Admin\Subscription;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class SubscriptionRequest extends FormRequest
+class UpdateSubscriptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,8 +22,14 @@ class SubscriptionRequest extends FormRequest
      */
     public function rules(): array
     {
+        $subscription = $this->route('subscription');
+
         return [
-            'email' => ['required', 'email', 'unique:subscription,email'],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('subscriptions', 'email')->ignore($subscription->id)
+            ],
             'active' => ['boolean']
         ];
     }
