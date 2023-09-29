@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\BannerController as BannerAdminController;
+use App\Http\Controllers\Public\BannerController;
+use App\Http\Controllers\Admin\PostController as PostAdminController;
+use App\Http\Controllers\Public\PostController;
+use App\Http\Controllers\Admin\SectionController as SectionAdminController;
+use App\Http\Controllers\Public\SectionController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\MessageController as MessageAdminController;
 use App\Http\Controllers\Public\MessageController;
-use App\Http\Controllers\Admin\PostController;
-use App\Http\Controllers\Admin\SectionController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SubscriptionController as SubscriptionAdminController;
 use App\Http\Controllers\Public\SubscriptionController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +30,12 @@ Route::middleware('locale')->group(function () {
     Route::post('subscription/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
     Route::put('subscription/unsubscribe/{subscription}', [SubscriptionController::class, 'unsubscribe'])->name('unsubscribe');
 
+    Route::apiResource('banners', BannerController::class)->names('banners');
+
+    Route::apiResource('posts', PostController::class)->names('posts');
+
+    Route::apiResource('sections', SectionController::class)->names('sections');
+
     Route::post('messages', [MessageController::class, 'message'])->name('message');
 
     Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
@@ -36,11 +45,11 @@ Route::middleware('locale')->group(function () {
         Route::put('users/{user}/activate', [UserController::class, 'activate'])->name('admin.users.activate');
         Route::put('users/{user}/deactivate', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
 
-        Route::apiResource('posts', PostController::class)->names('admin.posts');
+        Route::apiResource('banners', BannerAdminController::class)->names('admin.banners');
 
-        Route::apiResource('banners', BannerController::class)->names('admin.banners');
+        Route::apiResource('posts', PostAdminController::class)->names('admin.posts');
 
-        Route::apiResource('sections', SectionController::class)->names('admin.sections');
+        Route::apiResource('sections', SectionAdminController::class)->names('admin.sections');
 
         Route::apiResource('messages', MessageAdminController::class)->names('admin.messages');
 
