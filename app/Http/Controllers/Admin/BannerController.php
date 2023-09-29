@@ -89,6 +89,15 @@ class BannerController extends Controller
         ], ResponseAlias::HTTP_OK);
     }
 
+    public function types(): Response
+    {
+        $types = config('banner.types');
+
+        return response([
+            'types' => $types
+        ], ResponseAlias::HTTP_OK);
+    }
+
     public function deleteImages(DeleteBannerImagesRequest $request, Banner $banner): Response
     {
         $data = $request->validated();

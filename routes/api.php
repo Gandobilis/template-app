@@ -46,7 +46,8 @@ Route::middleware('locale')->group(function () {
         Route::put('users/{user}/deactivate', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
 
         Route::apiResource('banners', BannerAdminController::class)->names('admin.banners');
-        Route::put('banners/{banner}/images', [BannerAdminController::class, 'deleteImages'])->name('admin.banners.images.put');
+        Route::put('banners/{banner}/images', [BannerAdminController::class, 'deleteImages'])->name('admin.banners.images');
+        Route::get('banner/types', [BannerAdminController::class, 'types'])->name('admin.banner.types');
 
         Route::apiResource('posts', PostAdminController::class)->names('admin.posts');
 
