@@ -22,7 +22,7 @@ class SectionController extends Controller
 
         return response([
             'sections' => $sections
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function show(Section $section): Response
@@ -31,83 +31,63 @@ class SectionController extends Controller
 
         return response([
             'section' => $section
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function store(SectionRequest $request): Response
     {
         $data = $request->validated();
-        $images = $data['images'] ?? [];
+        $images = $data['images'];
         unset($data['images']);
 
         $section = Section::create($data);
 
-        $uploadedImages = [];
-
         foreach ($images as $image) {
-            $uploadedImages[] = $this->fileUploadService->uploadFile($image, 'sections');
+            $image = $this->fileUploadService->uploadFile($image, 'sections');
+            $section->images()->create(['image' => $image]);
         }
 
-        $section->images()->createMany(array_map(function ($image) {
-            return ['image' => $image];
-        }, $uploadedImages));
-
-        $section->load(['images', 'posts']);
+        $section->load('images');
 
         return response([
             'message' => 'Section created.',
             'section' => $section
-        ], 201);
+        ], ResponseAlias::HTTP_CREATED);
     }
 
     public function update(SectionRequest $request, Section $section): Response
     {
         $data = $request->validated();
-        $images = $data['images'] ?? [];
+        $images = $data['images'];
         unset($data['images']);
 
         $section->update($data);
 
-        $uploadedImages = [];
-
         foreach ($images as $image) {
-            $uploadedImages[] = $this->fileUploadService->uploadFile($image, 'sections');
+            $image = $this->fileUploadService->uploadFile($image, 'sections');
+            $section->images()->create(['image' => $image]);
         }
 
-        $images = $section->images;
-
-        foreach ($images as $image) {
-            $this->fileUploadService->deleteFile($image['image']);
-        }
-
-        $section->images()->delete();
-
-        $section->images()->createMany(array_map(function ($image) {
-            return ['image' => $image];
-        }, $uploadedImages));
-
-        $section->load(['images', 'posts']);
+        $section->load('images');
 
         return response([
             'message' => 'Section updated.',
             'section' => $section
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function destroy(Section $section): Response
     {
-        $images = $section->images;
+        $section->images()->each(function ($image) {
+            $image->delete();
+        });
 
-        foreach ($images as $image) {
-            $this->fileUploadService->deleteFile($image['image']);
-        }
-
-        $section->images()->delete();
+        $section->posts()->delete();
         $section->delete();
 
         return response([
             'message' => 'Section deleted.'
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function types(): Response
