@@ -3,49 +3,42 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Public\Subscription\SubscriptionRequest;
+use App\Http\Requests\Public\Subscription\UpdateSubscriptionRequest;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class SubscriptionController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function subscribe(SubscriptionRequest $request, Subscription $subscription): Response
     {
-        //
-    }
+        $data = $request->validated();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Subscription $subscription)
-    {
-        //
-    }
+        $subscription = Subscription::create($data);
 
+        return response([
+            'message' => 'Subscribed successfully.',
+            'subscription' => $subscription
+        ], ResponseAlias::HTTP_CREATED);
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Subscription $subscription)
+    public function unsubscribe(UpdateSubscriptionRequest $request, Subscription $subscription): Response
     {
-        //
-    }
+        $request->validated();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Subscription $subscription)
-    {
-        //
+        $subscription->update(['active' => false]);
+
+        return response([
+            'message' => 'Unsubscribed successfully.',
+            'subscription' => $subscription
+        ], ResponseAlias::HTTP_OK);
     }
 }

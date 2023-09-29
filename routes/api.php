@@ -6,8 +6,9 @@ use App\Http\Controllers\Admin\MessageController as MessageAdminController;
 use App\Http\Controllers\Public\MessageController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SectionController;
-use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SubscriptionController as SubscriptionAdminController;
+use App\Http\Controllers\Public\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,8 +24,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('locale')->group(function () {
     Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 
-    Route::post('subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
-    Route::post('unsubscribe', [SubscriptionController::class, 'unsubscribe'])->name('unsubscribe');
+    Route::post('subscription/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
+    Route::put('subscription/unsubscribe/{subscription}', [SubscriptionController::class, 'unsubscribe'])->name('unsubscribe');
 
     Route::post('messages', [MessageController::class, 'message'])->name('message');
 
@@ -42,5 +43,7 @@ Route::middleware('locale')->group(function () {
         Route::apiResource('sections', SectionController::class)->names('admin.sections');
 
         Route::apiResource('messages', MessageAdminController::class)->names('admin.messages');
+
+        Route::apiResource('subscriptions', SubscriptionAdminController::class)->names('admin.subscriptions');
     });
 });
