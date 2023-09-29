@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Admin\Banner;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class BannerRequest extends FormRequest
 {
@@ -22,15 +23,15 @@ class BannerRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'type' => 'required|string|max:255',
-            'images' => 'required|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg',
+            'type' => ['required', 'string', 'max:255', Rule::in(config('banner.types'))],
+            'images' => ['required', 'array'],
+            'images.*' => ['image', 'mimes:jpeg,png,jpg'],
         ];
 
         foreach (config('translatable.locales') as $locale) {
-            $rules["$locale.title"] = 'required|string|max:255';
-            $rules["$locale.content"] = 'required|string';
-            $rules["$locale.link"] = 'required|string|max:255';
+            $rules["$locale.title"] = ['required', 'string', 'max:255'];
+            $rules["$locale.content"] = ['required', 'string'];
+            $rules["$locale.link"] = ['required', 'string', 'max:255'];
         }
 
         return $rules;
