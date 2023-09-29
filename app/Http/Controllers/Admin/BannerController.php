@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\BannerRequest;
+use App\Http\Requests\Admin\Banner\BannerRequest;
+use App\Http\Requests\Admin\Banner\DeleteBannerImagesRequest;
 use App\Models\Banner\Banner;
 use App\Services\FileUploadService;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class BannerController extends Controller
 {
@@ -20,7 +22,7 @@ class BannerController extends Controller
 
         return response([
             'banners' => $banners
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function show(Banner $banner): Response
@@ -29,78 +31,75 @@ class BannerController extends Controller
 
         return response([
             'banner' => $banner
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function store(BannerRequest $request): Response
     {
         $data = $request->validated();
-        $images = $data['images'] ?? [];
+        $images = $data['images'];
         unset($data['images']);
 
         $banner = Banner::create($data);
 
-        $uploadedImages = [];
-
         foreach ($images as $image) {
-            $uploadedImages[] = $this->fileUploadService->uploadFile($image, 'banners');
+            $image = $this->fileUploadService->uploadFile($image, 'banners');
+            $banner->images()->create(['image' => $image]);
         }
-
-        $banner->images()->createMany(array_map(function ($image) {
-            return ['image' => $image];
-        }, $uploadedImages));
 
         $banner->load('images');
 
         return response([
             'message' => 'Banner created.',
             'banner' => $banner
-        ], 201);
+        ], ResponseAlias::HTTP_CREATED);
     }
 
     public function update(BannerRequest $request, Banner $banner): Response
     {
         $data = $request->validated();
-        $images = $data['images'] ?? [];
+        $images = $data['images'];
         unset($data['images']);
 
         $banner->update($data);
 
-        $uploadedImages = [];
-
         foreach ($images as $image) {
-            $uploadedImages[] = $this->fileUploadService->uploadFile($image, 'banners');
+            $image = $this->fileUploadService->uploadFile($image, 'banners');
+            $banner->images()->create(['image' => $image]);
         }
-
-        $images = $banner->images;
-
-        foreach ($images as $image) {
-            $this->fileUploadService->deleteFile($image['image']);
-        }
-
-        $banner->images()->delete();
-
-        $banner->images()->createMany(array_map(function ($image) {
-            return ['image' => $image];
-        }, $uploadedImages));
 
         $banner->load('images');
 
         return response([
             'message' => 'Banner updated.',
             'banner' => $banner
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function destroy(Banner $banner): Response
     {
-        foreach ($banner->images as $image) {
+        $banner->images()->each(function ($image) {
             $image->delete();
-        }
+        });
 
         $banner->delete();
+
         return response([
             'message' => 'Banner deleted.'
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
+    }
+
+    public function deleteImages(DeleteBannerImagesRequest $request, Banner $banner): Response
+    {
+        $data = $request->validated();
+
+        $banner->images()->whereIn('id', $data['image_ids'])->delete();
+
+        $banner->load('images');
+
+        return response([
+            'message' => 'Images deleted.',
+            'banner' => $banner
+        ], ResponseAlias::HTTP_OK);
     }
 }

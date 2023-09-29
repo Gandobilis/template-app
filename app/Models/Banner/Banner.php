@@ -25,6 +25,6 @@ class Banner extends Model implements TranslatableContract
 
     public function image(): MorphOne
     {
-        return $this->morphOne(Image::class, 'imageable')->take(1);
+        return $this->morphOne(Image::class, 'imageable');
     }
 }
