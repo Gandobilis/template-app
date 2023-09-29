@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Banner;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteBannerImagesRequest extends FormRequest
+class DeleteImagesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

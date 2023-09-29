@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DeleteImagesRequest;
 use App\Http\Requests\Admin\SectionRequest;
 use App\Models\Section\Section;
-use Illuminate\Http\Response;
 use App\Services\FileUploadService;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class SectionController extends Controller
 {
@@ -106,5 +108,28 @@ class SectionController extends Controller
         return response([
             'message' => 'Section deleted.'
         ], 200);
+    }
+
+    public function types(): Response
+    {
+        $types = config('section.types');
+
+        return response([
+            'types' => $types
+        ], ResponseAlias::HTTP_OK);
+    }
+
+    public function deleteImages(DeleteImagesRequest $request, Section $section): Response
+    {
+        $data = $request->validated();
+
+        $section->images()->whereIn('id', $data['image_ids'])->delete();
+
+        $section->load('images');
+
+        return response([
+            'message' => 'Images deleted.',
+            'section' => $section
+        ], ResponseAlias::HTTP_OK);
     }
 }
