@@ -21,8 +21,19 @@ class PostRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'section_id' => ['required', 'integer', 'exists:sections,id'],
+            'images' => ['required', 'array'],
+            'images.*' => ['image', 'mimes:jpeg,png,jpg'],
         ];
+
+        foreach (config('translatable.locales') as $locale) {
+            $rules["$locale.title"] = ['required', 'string', 'max:255'];
+            $rules["$locale.desc"] = ['required', 'string'];
+            $rules["$locale.content"] = ['required', 'string'];
+            $rules["$locale.slug"] = ['required', 'string', 'max:255'];
+        }
+
+        return $rules;
     }
 }

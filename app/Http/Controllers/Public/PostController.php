@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\PostRequest;
 use App\Models\Post\Post;
-use App\Services\FileUploadService;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class PostController extends Controller
 {
@@ -17,15 +16,15 @@ class PostController extends Controller
 
         return response([
             'posts' => $posts
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function show(Post $post): Response
     {
-        $post->load('images');
+        $post->load(['images', 'section']);
 
         return response([
             'post' => $post
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 }

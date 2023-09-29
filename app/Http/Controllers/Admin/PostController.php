@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DeleteImagesRequest;
 use App\Http\Requests\Admin\PostRequest;
 use App\Models\Post\Post;
 use App\Services\FileUploadService;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class PostController extends Controller
 {
@@ -20,91 +22,84 @@ class PostController extends Controller
 
         return response([
             'posts' => $posts
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function show(Post $post): Response
     {
-        $post->load('images');
+        $post->load(['images', 'section']);
 
         return response([
             'post' => $post
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function store(PostRequest $request): Response
     {
         $data = $request->validated();
-        $images = $data['images'] ?? [];
+        $images = $data['images'];
         unset($data['images']);
 
         $post = Post::create($data);
 
-        $uploadedImages = [];
-
         foreach ($images as $image) {
-            $uploadedImages[] = $this->fileUploadService->uploadFile($image, 'posts');
+            $image = $this->fileUploadService->uploadFile($image, 'posts');
+            $post->images()->create(['image' => $image]);
         }
-
-        $post->images()->createMany(array_map(function ($image) {
-            return ['image' => $image];
-        }, $uploadedImages));
 
         $post->load('images');
 
         return response([
             'message' => 'Post created.',
             'post' => $post
-        ], 201);
+        ], ResponseAlias::HTTP_CREATED);
     }
 
     public function update(PostRequest $request, Post $post): Response
     {
         $data = $request->validated();
-        $images = $data['images'] ?? [];
+        $images = $data['images'];
         unset($data['images']);
 
         $post->update($data);
 
-        $uploadedImages = [];
-
         foreach ($images as $image) {
-            $uploadedImages[] = $this->fileUploadService->uploadFile($image, 'posts');
+            $image = $this->fileUploadService->uploadFile($image, 'posts');
+            $post->images()->create(['image' => $image]);
         }
-
-        $images = $post->images;
-
-        foreach ($images as $image) {
-            $this->fileUploadService->deleteFile($image['image']);
-        }
-
-        $post->images()->delete();
-
-        $post->images()->createMany(array_map(function ($image) {
-            return ['image' => $image];
-        }, $uploadedImages));
 
         $post->load('images');
 
         return response([
             'message' => 'Post updated.',
             'post' => $post
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function destroy(Post $post): Response
     {
-        $images = $post->images;
+        $post->images()->each(function ($image) {
+            $image->delete();
+        });
 
-        foreach ($images as $image) {
-            $this->fileUploadService->deleteFile($image['image']);
-        }
-
-        $post->images()->delete();
         $post->delete();
 
         return response([
             'message' => 'Post deleted.'
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
+    }
+
+    public function deleteImages(DeleteImagesRequest $request, Post $post): Response
+    {
+        $data = $request->validated();
+
+        $post->images()->whereIn('id', $data['image_ids'])->delete();
+
+        $post->load('images');
+
+        return response([
+            'message' => 'Images deleted.',
+            'post' => $post
+        ], ResponseAlias::HTTP_OK);
     }
 }
