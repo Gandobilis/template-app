@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->string('type')->index();
             $table->timestamps();
         });
 
