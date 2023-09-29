@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Public;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MessageRequest extends FormRequest
+class SubscriptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,8 @@ class MessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'content' => ['required', 'string']
+            'email' => ['required', 'email', 'unique:subscription,email'],
+            'active' => ['boolean']
         ];
     }
 }
