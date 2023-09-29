@@ -15,14 +15,23 @@ class Post extends Model implements TranslatableContract
 {
     use Translatable;
 
-    public function images(): MorphMany
-    {
-        return $this->morphMany(Image::class, 'imageable');
-    }
+    public $translatedAttributes = [
+        'title',
+        'desc',
+        'content',
+        'slug'
+    ];
+
+    protected $fillable = ['section_id'];
 
     public function section(): BelongsTo
     {
         return $this->belongsTo(Section::class);
+    }
+
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     public function image(): MorphOne
