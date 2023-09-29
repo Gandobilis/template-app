@@ -6,7 +6,6 @@ use App\Models\Image;
 use App\Models\Section\Section;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -14,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Post extends Model implements TranslatableContract
 {
-    use HasFactory;
     use Translatable;
 
     public function images(): MorphMany
@@ -29,6 +27,6 @@ class Post extends Model implements TranslatableContract
 
     public function image(): MorphOne
     {
-        return $this->morphOne(Image::class, 'imageable')->take(1);
+        return $this->morphOne(Image::class, 'imageable');
     }
 }
