@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SectionRequest extends FormRequest
 {
@@ -21,8 +22,18 @@ class SectionRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'type' => ['required', 'string', 'max:255', Rule::in(config('section.types'))],
+            'images' => ['required', 'array'],
+            'images.*' => ['image', 'mimes:jpeg,png,jpg'],
         ];
+
+        foreach (config('translatable.locales') as $locale) {
+            $rules["$locale.title"] = ['required', 'string', 'max:255'];
+            $rules["$locale.desc"] = ['required', 'string'];
+            $rules["$locale.slug"] = ['required', 'string', 'max:255'];
+        }
+
+        return $rules;
     }
 }

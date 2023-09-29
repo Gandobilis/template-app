@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Banner\BannerRequest;
-use App\Http\Requests\Admin\Banner\DeleteBannerImagesRequest;
+use App\Http\Requests\Admin\BannerRequest;
+use App\Http\Requests\Admin\DeleteImagesRequest;
 use App\Models\Banner\Banner;
 use App\Services\FileUploadService;
 use Illuminate\Http\Response;
@@ -98,7 +98,7 @@ class BannerController extends Controller
         ], ResponseAlias::HTTP_OK);
     }
 
-    public function deleteImages(DeleteBannerImagesRequest $request, Banner $banner): Response
+    public function deleteImages(DeleteImagesRequest $request, Banner $banner): Response
     {
         $data = $request->validated();
 

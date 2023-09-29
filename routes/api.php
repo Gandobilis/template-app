@@ -30,31 +30,52 @@ Route::middleware('locale')->group(function () {
     Route::post('subscription/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
     Route::put('subscription/unsubscribe/{subscription}', [SubscriptionController::class, 'unsubscribe'])->name('unsubscribe');
 
-    Route::apiResource('banners', BannerController::class)->names('banners');
+    Route::apiResource('banners', BannerController::class)
+        ->names('banners');
 
-    Route::apiResource('posts', PostController::class)->names('posts');
+    Route::apiResource('sections', SectionController::class)
+        ->names('sections');
 
-    Route::apiResource('sections', SectionController::class)->names('sections');
+    Route::apiResource('posts', PostController::class)
+        ->names('posts');
 
-    Route::post('messages', [MessageController::class, 'message'])->name('message');
+    Route::post('messages', [MessageController::class, 'message'])
+        ->name('message');
 
     Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+        Route::post('logout', [AuthController::class, 'logout'])
+            ->name('auth.logout');
 
-        Route::apiResource('users', UserController::class)->names('admin.users');
-        Route::put('users/{user}/activate', [UserController::class, 'activate'])->name('admin.users.activate');
-        Route::put('users/{user}/deactivate', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
+        Route::apiResource('users', UserController::class)
+            ->names('admin.users');
+        Route::put('users/{user}/activate', [UserController::class, 'activate'])
+            ->name('admin.users.activate');
+        Route::put('users/{user}/deactivate', [UserController::class, 'deactivate'])
+            ->name('admin.users.deactivate');
 
-        Route::apiResource('banners', BannerAdminController::class)->names('admin.banners');
-        Route::put('banners/{banner}/images', [BannerAdminController::class, 'deleteImages'])->name('admin.banners.images');
-        Route::get('banner/types', [BannerAdminController::class, 'types'])->name('admin.banner.types');
+        Route::apiResource('banners', BannerAdminController::class)
+            ->names('admin.banners');
+        Route::put('banners/{banner}/images', [BannerAdminController::class, 'deleteImages'])
+            ->name('admin.banners.images');
+        Route::get('banner/types', [BannerAdminController::class, 'types'])
+            ->name('admin.banner.types');
 
-        Route::apiResource('posts', PostAdminController::class)->names('admin.posts');
+        Route::apiResource('sections', SectionAdminController::class)
+            ->names('admin.sections');
+        Route::put('sections/{section}/images', [SectionAdminController::class, 'deleteImages'])
+            ->name('admin.sections.images');
+        Route::get('section/types', [SectionAdminController::class, 'types'])
+            ->name('admin.section.types');
 
-        Route::apiResource('sections', SectionAdminController::class)->names('admin.sections');
+        Route::apiResource('posts', PostAdminController::class)
+            ->names('admin.posts');
+        Route::put('posts/{post}/images', [PostAdminController::class, 'deleteImages'])
+            ->name('admin.posts.images');
 
-        Route::apiResource('messages', MessageAdminController::class)->names('admin.messages');
+        Route::apiResource('messages', MessageAdminController::class)
+            ->names('admin.messages');
 
-        Route::apiResource('subscriptions', SubscriptionAdminController::class)->names('admin.subscriptions');
+        Route::apiResource('subscriptions', SubscriptionAdminController::class)
+            ->names('admin.subscriptions');
     });
 });
