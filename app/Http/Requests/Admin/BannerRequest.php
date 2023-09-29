@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class BannerRequest extends FormRequest
 {
@@ -23,7 +22,7 @@ class BannerRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'type' => ['required', 'string', 'max:255', Rule::in(config('banner.types'))],
+            'type' => ['required', 'string', 'max:255', 'in:' . implode(',', config('banner.types'))],
             'images' => ['required', 'array'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg'],
         ];
