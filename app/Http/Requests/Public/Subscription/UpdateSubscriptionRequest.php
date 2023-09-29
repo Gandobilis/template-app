@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Public\Subscription;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateSubscriptionRequest extends FormRequest
 {
@@ -25,11 +24,7 @@ class UpdateSubscriptionRequest extends FormRequest
         $subscription = $this->route('subscription');
 
         return [
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('subscriptions', 'email')->ignore($subscription->id)
-            ]
+            'email' => ['required', 'unique:subscriptions,email,' . $subscription->id]
         ];
     }
 }
