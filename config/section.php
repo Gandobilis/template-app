@@ -2,7 +2,8 @@
 
 return [
     'types' => [
-        'news',
-        'text',
+        "News",
+        "Events",
+        "Blog"
     ]
 ];
