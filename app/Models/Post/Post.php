@@ -24,11 +24,6 @@ class Post extends Model implements TranslatableContract
 
     protected $fillable = ['section_id'];
 
-    public function section(): BelongsTo
-    {
-        return $this->belongsTo(Section::class);
-    }
-
     public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable');
@@ -37,5 +32,10 @@ class Post extends Model implements TranslatableContract
     public function image(): MorphOne
     {
         return $this->morphOne(Image::class, 'imageable');
+    }
+
+    public function section(): BelongsTo
+    {
+        return $this->belongsTo(Section::class);
     }
 }
