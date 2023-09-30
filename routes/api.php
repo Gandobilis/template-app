@@ -85,7 +85,7 @@ Route::middleware('locale')->group(function () {
                 ->name('messages.restore');
         });
 
-        Route::apiResource('subscriptions', SubscriptionAdminController::class)
-            ->names('admin.subscriptions')->only('index');
+        Route::get('subscriptions', [SubscriptionAdminController::class, 'index'])
+            ->name('admin.subscriptions.index');
     });
 });
