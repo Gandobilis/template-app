@@ -8,6 +8,7 @@ class Subscription extends Model
 {
     protected $fillable = [
         'email',
+        'token',
         'active'
     ];
 }

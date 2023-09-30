@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Public\Subscription\SubscriptionRequest;
-use App\Http\Requests\Public\Subscription\UpdateSubscriptionRequest;
+use App\Http\Requests\Public\SubscriptionRequest;
 use App\Models\Subscription;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class SubscriptionController extends Controller
@@ -17,11 +17,15 @@ class SubscriptionController extends Controller
     public function subscribe(SubscriptionRequest $request): Response
     {
         $data = $request->validated();
+        $data['token'] = Str::random();
 
-        $subscription = Subscription::create($data);
+        $subscription = Subscription::updateOrCreate(
+            ['email' => $data['email']],
+            $data
+        );
 
         return response([
-            'message' => 'Subscribed successfully.',
+            'message' => trans('subscription.subscribe'),
             'subscription' => $subscription
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -29,14 +33,14 @@ class SubscriptionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function unsubscribe(UpdateSubscriptionRequest $request, Subscription $subscription): Response
+    public function unsubscribe(string $token, Subscription $subscription): Response
     {
-        $request->validated();
-
-        $subscription->update(['active' => false]);
+        $subscription->update([
+            'active' => false
+        ]);
 
         return response([
-            'message' => 'Unsubscribed successfully.',
+            'message' => trans('subscription.unsubscribe'),
             'subscription' => $subscription
         ], ResponseAlias::HTTP_OK);
     }

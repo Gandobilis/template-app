@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subscription;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -12,9 +13,11 @@ class SubscriptionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $subscriptions = Subscription::all();
+        $limit = $request->query('limit', 10);
+
+        $subscriptions = Subscription::paginate($limit);
 
         return response([
             'subscriptions' => $subscriptions
