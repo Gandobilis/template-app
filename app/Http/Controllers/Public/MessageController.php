@@ -13,7 +13,7 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function message(MessageRequest $request): Response
+    public function store(MessageRequest $request): Response
     {
         $data = $request->validated();
 

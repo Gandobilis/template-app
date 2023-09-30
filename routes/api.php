@@ -25,22 +25,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::middleware('locale')->group(function () {
-    Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('login', [AuthController::class, 'login'])
+        ->name('auth.login');
 
-    Route::post('subscription/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
-    Route::put('subscription/unsubscribe/{subscription}', [SubscriptionController::class, 'unsubscribe'])->name('unsubscribe');
+    Route::post('subscription/subscribe', [SubscriptionController::class, 'subscribe'])
+        ->name('subscribe');
+    Route::put('subscription/unsubscribe/{subscription}', [SubscriptionController::class, 'unsubscribe'])
+        ->name('unsubscribe');
 
     Route::apiResource('banners', BannerController::class)
-        ->names('banners');
+        ->names('banners')->only(['index', 'show']);
 
     Route::apiResource('sections', SectionController::class)
-        ->names('sections');
+        ->names('sections')->only(['index', 'show']);;
 
     Route::apiResource('posts', PostController::class)
-        ->names('posts');
+        ->names('posts')->only(['index', 'show']);;
 
-    Route::post('messages', [MessageController::class, 'message'])
-        ->name('message');
+    Route::post('messages', [MessageController::class, 'store'])
+        ->name('messages.store');
 
     Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
         Route::post('logout', [AuthController::class, 'logout'])
@@ -73,9 +76,16 @@ Route::middleware('locale')->group(function () {
             ->name('admin.post.images');
 
         Route::apiResource('messages', MessageAdminController::class)
-            ->names('admin.messages');
+            ->names('admin.messages')
+            ->only(['index', 'show', 'destroy']);
+        Route::prefix('messages/soft')->group(function () {
+            Route::get('archived', [MessageAdminController::class, 'archived'])
+                ->name('messages.archived');
+            Route::put('archived/restore/{id}', [MessageAdminController::class, 'restore'])
+                ->name('messages.restore');
+        });
 
         Route::apiResource('subscriptions', SubscriptionAdminController::class)
-            ->names('admin.subscriptions');
+            ->names('admin.subscriptions')->only('index');
     });
 });
