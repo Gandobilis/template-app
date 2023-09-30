@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\DeleteImagesRequest;
 use App\Http\Requests\Admin\PostRequest;
 use App\Models\Post\Post;
 use App\Services\FileUploadService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -16,9 +17,11 @@ class PostController extends Controller
     {
     }
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $posts = Post::with('image')->get();
+        $limit = $request->query('limit', 10);
+
+        $posts = Post::with('image')->paginate($limit);
 
         return response([
             'posts' => $posts
@@ -50,7 +53,7 @@ class PostController extends Controller
         $post->load('images');
 
         return response([
-            'message' => 'Post created.',
+            'message' => trans('post.store'),
             'post' => $post
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -71,7 +74,7 @@ class PostController extends Controller
         $post->load('images');
 
         return response([
-            'message' => 'Post updated.',
+            'message' => trans('post.update'),
             'post' => $post
         ], ResponseAlias::HTTP_OK);
     }
@@ -85,7 +88,7 @@ class PostController extends Controller
         $post->delete();
 
         return response([
-            'message' => 'Post deleted.'
+            'message' => trans('post.destroy'),
         ], ResponseAlias::HTTP_OK);
     }
 
@@ -98,7 +101,7 @@ class PostController extends Controller
         $post->load('images');
 
         return response([
-            'message' => 'Images deleted.',
+            'message' => trans('post.images_delete'),
             'post' => $post
         ], ResponseAlias::HTTP_OK);
     }
