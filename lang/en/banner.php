@@ -3,6 +3,6 @@
 return [
     'store' => 'Banner created.',
     'update' => 'Banner updated.',
-    'delete' => 'Banner deleted.',
+    'destroy' => 'Banner deleted.',
     'images_delete' => 'Banner images deleted.'
 ];

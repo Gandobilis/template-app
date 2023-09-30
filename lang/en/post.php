@@ -3,6 +3,6 @@
 return [
     'store' => 'Post created.',
     'update' => 'Post updated.',
-    'delete' => 'Post deleted.',
+    'destroy' => 'Post deleted.',
     'images_delete' => 'Post images deleted.'
 ];

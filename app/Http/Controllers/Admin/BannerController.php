@@ -53,7 +53,7 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => 'Banner created.',
+            'message' => trans('banner.create'),
             'banner' => $banner
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -74,7 +74,7 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => 'Banner updated.',
+            'message' => trans('banner.update'),
             'banner' => $banner
         ], ResponseAlias::HTTP_OK);
     }
@@ -88,7 +88,7 @@ class BannerController extends Controller
         $banner->delete();
 
         return response([
-            'message' => 'Banner deleted.'
+            'message' => trans('banner.destroy')
         ], ResponseAlias::HTTP_OK);
     }
 
@@ -110,7 +110,7 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => 'Banner images deleted.',
+            'message' => trans('banner.images_deleted'),
             'banner' => $banner
         ], ResponseAlias::HTTP_OK);
     }
