@@ -21,9 +21,11 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $user_id = $this->route('user')?->id;
+
         return [
             "image" => ["required", "file", "mimes:png,jpg,jpeg"],
-            "email" => ["required", "email", "max:255", "unique:users,email"],
+            "email" => ["required", "email", "max:255", "unique:users,email," . $user_id],
             "name" => ["required", "string", "max:255"],
             "password" => ["required", "string", "min:8", "max:128"],
             'active' => ['boolean'],
