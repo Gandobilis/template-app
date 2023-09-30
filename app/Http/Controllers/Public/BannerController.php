@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner\Banner;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class BannerController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $banners = Banner::with('image')->get();
+        $limit = $request->query('limit', 10);
+
+        $banners = Banner::with('image')->paginate($limit);
 
         return response([
             'banners' => $banners

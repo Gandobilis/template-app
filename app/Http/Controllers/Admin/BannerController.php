@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\BannerRequest;
 use App\Http\Requests\Admin\DeleteImagesRequest;
 use App\Models\Banner\Banner;
 use App\Services\FileUploadService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -16,9 +17,11 @@ class BannerController extends Controller
     {
     }
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $banners = Banner::with('image')->get();
+        $limit = $request->query('limit', 10);
+
+        $banners = Banner::with('image')->paginate($limit);
 
         return response([
             'banners' => $banners
@@ -107,7 +110,7 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => 'Images deleted.',
+            'message' => 'Banner images deleted.',
             'banner' => $banner
         ], ResponseAlias::HTTP_OK);
     }
