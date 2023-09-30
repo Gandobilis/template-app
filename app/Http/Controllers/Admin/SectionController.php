@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\DeleteImagesRequest;
 use App\Http\Requests\Admin\SectionRequest;
 use App\Models\Section\Section;
 use App\Services\FileUploadService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -16,9 +17,11 @@ class SectionController extends Controller
     {
     }
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $sections = Section::with(['image'])->get();
+        $limit = $request->query('limit', 10);
+
+        $sections = Section::with('image')->paginate($limit);
 
         return response([
             'sections' => $sections
@@ -50,7 +53,7 @@ class SectionController extends Controller
         $section->load('images');
 
         return response([
-            'message' => 'Section created.',
+            'message' => trans('section.store'),
             'section' => $section
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -71,7 +74,7 @@ class SectionController extends Controller
         $section->load('images');
 
         return response([
-            'message' => 'Section updated.',
+            'message' => trans('section.update'),
             'section' => $section
         ], ResponseAlias::HTTP_OK);
     }
@@ -86,7 +89,7 @@ class SectionController extends Controller
         $section->delete();
 
         return response([
-            'message' => 'Section deleted.'
+            'message' => trans('section.destroy')
         ], ResponseAlias::HTTP_OK);
     }
 
@@ -108,7 +111,7 @@ class SectionController extends Controller
         $section->load('images');
 
         return response([
-            'message' => 'Images deleted.',
+            'message' => trans('section.images_delete'),
             'section' => $section
         ], ResponseAlias::HTTP_OK);
     }

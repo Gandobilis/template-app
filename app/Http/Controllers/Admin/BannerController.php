@@ -53,7 +53,7 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => trans('banner.create'),
+            'message' => trans('banner.store'),
             'banner' => $banner
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -110,7 +110,7 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => trans('banner.images_deleted'),
+            'message' => trans('banner.images_delete'),
             'banner' => $banner
         ], ResponseAlias::HTTP_OK);
     }
