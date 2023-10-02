@@ -15,6 +15,12 @@ class SubscriptionController extends Controller
      */
     public function index(Request $request): Response
     {
+        if (!auth()->user()->hasRole('admin')) {
+            return response([
+                'message' => trans('subscription.error.index')
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $limit = $request->query('limit', 10);
 
         $subscriptions = Subscription::paginate($limit);
