@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         if (!auth()->user()->hasRole('admin')) {
             return response([
-                'message' => trans('user.error.index')
+                'message' => __('user.error.index')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
     {
         if (!auth()->user()->hasRole('admin')) {
             return response([
-                'message' => trans('user.error.store')
+                'message' => __('user.error.store')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -53,7 +53,7 @@ class UserController extends Controller
         $user->load('image');
 
         return response([
-            'message' => trans('user.success.store'),
+            'message' => __('user.success.store'),
             'user' => $user
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         if (!auth()->user()->hasRole('admin')) {
             return response([
-                'message' => trans('user.error.show')
+                'message' => __('user.error.show')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -83,7 +83,7 @@ class UserController extends Controller
     {
         if (!auth()->user()->hasRole('admin')) {
             return response([
-                'message' => trans('user.error.update')
+                'message' => __('user.error.update')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -100,7 +100,7 @@ class UserController extends Controller
         $user->load('image');
 
         return response([
-            'message' => trans('user.success.update'),
+            'message' => __('user.success.update'),
             'user' => $user
         ], ResponseAlias::HTTP_OK);
     }
@@ -112,7 +112,7 @@ class UserController extends Controller
     {
         if (!auth()->user()->hasRole('admin')) {
             return response([
-                'message' => trans('user.error.destroy')
+                'message' => __('user.error.destroy')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -121,7 +121,7 @@ class UserController extends Controller
         $user->delete();
 
         return response([
-            'message' => trans('user.success.destroy'),
+            'message' => __('user.success.destroy'),
         ], ResponseAlias::HTTP_OK); // ResponseAlias::HTTP_NO_CONTENT if the response is empty :)
     }
 
@@ -132,7 +132,7 @@ class UserController extends Controller
     {
         if (!auth()->user()->hasRole('admin')) {
             return response([
-                'message' => trans('user.error.activate')
+                'message' => __('user.error.activate')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -140,7 +140,7 @@ class UserController extends Controller
         $user->load('image');
 
         return response([
-            'message' => trans('user.success.activate'),
+            'message' => __('user.success.activate'),
             'user' => $user
         ], ResponseAlias::HTTP_OK);
     }
@@ -152,7 +152,7 @@ class UserController extends Controller
     {
         if (!auth()->user()->hasRole('admin')) {
             return response([
-                'message' => trans('user.error.deactivate')
+                'message' => __('user.error.deactivate')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -160,7 +160,7 @@ class UserController extends Controller
         $user->load('image');
 
         return response([
-            'message' => trans('user.success.deactivate'),
+            'message' => __('user.success.deactivate'),
             'user' => $user
         ], ResponseAlias::HTTP_OK);
     }

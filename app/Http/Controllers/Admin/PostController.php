@@ -21,7 +21,7 @@ class PostController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
             return response([
-                'message' => trans('post.error.index')
+                'message' => __('post.error.index')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -38,7 +38,7 @@ class PostController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
             return response([
-                'message' => trans('post.error.show')
+                'message' => __('post.error.show')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -53,7 +53,7 @@ class PostController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
             return response([
-                'message' => trans('post.error.store')
+                'message' => __('post.error.store')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -71,7 +71,7 @@ class PostController extends Controller
         $post->load('images');
 
         return response([
-            'message' => trans('post.success.store'),
+            'message' => __('post.success.store'),
             'post' => $post
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -80,7 +80,7 @@ class PostController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
             return response([
-                'message' => trans('post.error.update')
+                'message' => __('post.error.update')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -98,7 +98,7 @@ class PostController extends Controller
         $post->load('images');
 
         return response([
-            'message' => trans('post.success.update'),
+            'message' => __('post.success.update'),
             'post' => $post
         ], ResponseAlias::HTTP_OK);
     }
@@ -107,7 +107,7 @@ class PostController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
             return response([
-                'message' => trans('post.error.destroy')
+                'message' => __('post.error.destroy')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -118,7 +118,7 @@ class PostController extends Controller
         $post->delete();
 
         return response([
-            'message' => trans('post.success.destroy'),
+            'message' => __('post.success.destroy'),
         ], ResponseAlias::HTTP_OK);
     }
 
@@ -126,7 +126,7 @@ class PostController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
             return response([
-                'message' => trans('post.error.delete_images')
+                'message' => __('post.error.delete_images')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -137,7 +137,7 @@ class PostController extends Controller
         $post->load('images');
 
         return response([
-            'message' => trans('post.success.images_delete'),
+            'message' => __('post.success.images_delete'),
             'post' => $post
         ], ResponseAlias::HTTP_OK);
     }

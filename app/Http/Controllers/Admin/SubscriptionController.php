@@ -17,7 +17,7 @@ class SubscriptionController extends Controller
     {
         if (!auth()->user()->hasRole('admin')) {
             return response([
-                'message' => trans('subscription.error.index')
+                'message' => __('subscription.error.index')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 

@@ -17,7 +17,7 @@ class MessageController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('message.error.index')
+                'message' => __('message.error.index')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -37,7 +37,7 @@ class MessageController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('message.error.show')
+                'message' => __('message.error.show')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -53,14 +53,14 @@ class MessageController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('message.error.destroy')
+                'message' => __('message.error.destroy')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $message->delete();
 
         return response([
-            'message' => trans('message.success.destroy')
+            'message' => __('message.success.destroy')
         ], ResponseAlias::HTTP_OK);
     }
 
@@ -71,7 +71,7 @@ class MessageController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('message.error.achieved')
+                'message' => __('message.error.achieved')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -91,7 +91,7 @@ class MessageController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('message.error.restore')
+                'message' => __('message.error.restore')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -99,7 +99,7 @@ class MessageController extends Controller
         $message->restore();
 
         return response([
-            'message' => trans('message.success.restore'),
+            'message' => __('message.success.restore'),
             'data' => $message,
         ], ResponseAlias::HTTP_OK);
     }

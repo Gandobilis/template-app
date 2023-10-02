@@ -15,20 +15,20 @@ class AuthController extends Controller
 
         if (!auth()->attempt($credentials)) {
             return response([
-                'message' => trans('auth.unauthorized')
+                'message' => __('auth.unauthorized')
             ], ResponseAlias::HTTP_UNAUTHORIZED);
         } else if (!auth()->user()->active) {
             auth()->logout();
 
             return response([
-                'message' => trans('auth.forbidden')
+                'message' => __('auth.forbidden')
             ], ResponseAlias::HTTP_FORBIDDEN);
         } else {
             $user = auth()->user();
             $token = auth()->user()->createToken('TemplateAppApiToken')->plainTextToken;
 
             return response([
-                'message' => trans('auth.log_in'),
+                'message' => __('auth.log_in'),
                 'user' => $user,
                 'access_token' => $token,
             ], ResponseAlias::HTTP_OK);
@@ -40,7 +40,7 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
 
         return response([
-            'message' => trans('auth.log_out'),
+            'message' => __('auth.log_out'),
         ], ResponseAlias::HTTP_OK);
     }
 }

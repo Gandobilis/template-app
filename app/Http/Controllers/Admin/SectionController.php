@@ -21,7 +21,7 @@ class SectionController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('section.error.index')
+                'message' => __('section.error.index')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -38,7 +38,7 @@ class SectionController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('section.error.show')
+                'message' => __('section.error.show')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -53,7 +53,7 @@ class SectionController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('section.error.store')
+                'message' => __('section.error.store')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -71,7 +71,7 @@ class SectionController extends Controller
         $section->load('images');
 
         return response([
-            'message' => trans('section.success.store'),
+            'message' => __('section.success.store'),
             'section' => $section
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -80,7 +80,7 @@ class SectionController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('section.error.update')
+                'message' => __('section.error.update')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -98,7 +98,7 @@ class SectionController extends Controller
         $section->load('images');
 
         return response([
-            'message' => trans('section.success.update'),
+            'message' => __('section.success.update'),
             'section' => $section
         ], ResponseAlias::HTTP_OK);
     }
@@ -107,7 +107,7 @@ class SectionController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('section.error.destroy')
+                'message' => __('section.error.destroy')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -119,7 +119,7 @@ class SectionController extends Controller
         $section->delete();
 
         return response([
-            'message' => trans('section.success.destroy')
+            'message' => __('section.success.destroy')
         ], ResponseAlias::HTTP_OK);
     }
 
@@ -127,7 +127,7 @@ class SectionController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('section.error.types')
+                'message' => __('section.error.types')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -142,7 +142,7 @@ class SectionController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('section.error.delete_images')
+                'message' => __('section.error.delete_images')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -153,7 +153,7 @@ class SectionController extends Controller
         $section->load('images');
 
         return response([
-            'message' => trans('section.success.images_delete'),
+            'message' => __('section.success.images_delete'),
             'section' => $section
         ], ResponseAlias::HTTP_OK);
     }

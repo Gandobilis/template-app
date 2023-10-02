@@ -21,7 +21,7 @@ class BannerController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('banner.error.index')
+                'message' => __('banner.error.index')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -38,7 +38,7 @@ class BannerController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('banner.error.show')
+                'message' => __('banner.error.show')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -53,7 +53,7 @@ class BannerController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('banner.error.store')
+                'message' => __('banner.error.store')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -71,7 +71,7 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => trans('banner.success.store'),
+            'message' => __('banner.success.store'),
             'banner' => $banner
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -80,7 +80,7 @@ class BannerController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('banner.error.update')
+                'message' => __('banner.error.update')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -98,7 +98,7 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => trans('banner.success.update'),
+            'message' => __('banner.success.update'),
             'banner' => $banner
         ], ResponseAlias::HTTP_OK);
     }
@@ -107,7 +107,7 @@ class BannerController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('banner.error.destroy')
+                'message' => __('banner.error.destroy')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -118,7 +118,7 @@ class BannerController extends Controller
         $banner->delete();
 
         return response([
-            'message' => trans('banner.success.destroy')
+            'message' => __('banner.success.destroy')
         ], ResponseAlias::HTTP_OK);
     }
 
@@ -126,7 +126,7 @@ class BannerController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('banner.error.types')
+                'message' => __('banner.error.types')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -141,7 +141,7 @@ class BannerController extends Controller
     {
         if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
-                'message' => trans('banner.error.delete_images')
+                'message' => __('banner.error.delete_images')
             ], ResponseAlias::HTTP_FORBIDDEN);
         }
 
@@ -152,7 +152,7 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => trans('banner.success.delete_images'),
+            'message' => __('banner.success.delete_images'),
             'banner' => $banner
         ], ResponseAlias::HTTP_OK);
     }

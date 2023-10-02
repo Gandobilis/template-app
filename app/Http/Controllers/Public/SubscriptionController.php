@@ -25,7 +25,7 @@ class SubscriptionController extends Controller
         );
 
         return response([
-            'message' => trans('subscription.subscribe'),
+            'message' => __('subscription.subscribe'),
             'subscription' => $subscription
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -40,7 +40,7 @@ class SubscriptionController extends Controller
         ]);
 
         return response([
-            'message' => trans('subscription.unsubscribe'),
+            'message' => __('subscription.unsubscribe'),
             'subscription' => $subscription
         ], ResponseAlias::HTTP_OK);
     }
