@@ -20,7 +20,7 @@ class MessageController extends Controller
         $message = Message::create($data);
 
         return response([
-            'message' => 'Message created.',
+            'message' => trans('message.success.store'),
             'data' => $message
         ], ResponseAlias::HTTP_CREATED);
     }

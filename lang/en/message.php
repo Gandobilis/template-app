@@ -2,6 +2,7 @@
 
 return [
     'success' => [
+        'store' => 'Message created successfully.',
         'destroy' => 'Message deleted successfully.',
         'restore' => 'Message restored successfully.'
     ],
