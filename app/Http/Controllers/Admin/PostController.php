@@ -19,10 +19,8 @@ class PostController extends Controller
 
     public function index(Request $request): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
-            return response([
-                'message' => __('post.error.index')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('post index')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $limit = $request->query('limit', 10);
@@ -36,10 +34,8 @@ class PostController extends Controller
 
     public function show(Post $post): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
-            return response([
-                'message' => __('post.error.show')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('post show')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $post->load(['images', 'section']);
@@ -51,10 +47,8 @@ class PostController extends Controller
 
     public function store(PostRequest $request): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
-            return response([
-                'message' => __('post.error.store')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('post store')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();
@@ -78,10 +72,8 @@ class PostController extends Controller
 
     public function update(PostRequest $request, Post $post): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
-            return response([
-                'message' => __('post.error.update')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('post update')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();
@@ -105,10 +97,8 @@ class PostController extends Controller
 
     public function destroy(Post $post): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
-            return response([
-                'message' => __('post.error.destroy')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('post destroy')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $post->images()->each(function ($image) {
@@ -124,10 +114,8 @@ class PostController extends Controller
 
     public function deleteImages(DeleteImagesRequest $request, Post $post): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
-            return response([
-                'message' => __('post.error.delete_images')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('post delete_images')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();

@@ -19,10 +19,8 @@ class SectionController extends Controller
 
     public function index(Request $request): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('section.error.index')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('section index')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $limit = $request->query('limit', 10);
@@ -36,10 +34,8 @@ class SectionController extends Controller
 
     public function show(Section $section): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('section.error.show')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('section show')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $section->load(['images', 'posts']);
@@ -51,10 +47,8 @@ class SectionController extends Controller
 
     public function store(SectionRequest $request): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('section.error.store')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('section store')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();
@@ -78,10 +72,8 @@ class SectionController extends Controller
 
     public function update(SectionRequest $request, Section $section): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('section.error.update')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('section update')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();
@@ -105,10 +97,8 @@ class SectionController extends Controller
 
     public function destroy(Section $section): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('section.error.destroy')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('section destroy')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $section->images()->each(function ($image) {
@@ -125,10 +115,8 @@ class SectionController extends Controller
 
     public function types(): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('section.error.types')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('section types')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $types = config('section.types');
@@ -140,10 +128,8 @@ class SectionController extends Controller
 
     public function deleteImages(DeleteImagesRequest $request, Section $section): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('section.error.delete_images')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('section delete_images')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();

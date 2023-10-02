@@ -19,10 +19,8 @@ class BannerController extends Controller
 
     public function index(Request $request): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('banner.error.index')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('banner index')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $limit = $request->query('limit', 10);
@@ -36,10 +34,8 @@ class BannerController extends Controller
 
     public function show(Banner $banner): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('banner.error.show')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('banner show')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $banner->load('images');
@@ -51,10 +47,8 @@ class BannerController extends Controller
 
     public function store(BannerRequest $request): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('banner.error.store')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('banner store')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();
@@ -78,10 +72,8 @@ class BannerController extends Controller
 
     public function update(BannerRequest $request, Banner $banner): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('banner.error.update')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('banner update')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();
@@ -105,10 +97,8 @@ class BannerController extends Controller
 
     public function destroy(Banner $banner): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('banner.error.destroy')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('banner destroy')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $banner->images()->each(function ($image) {
@@ -124,10 +114,8 @@ class BannerController extends Controller
 
     public function types(): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('banner.error.types')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('banner types')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $types = config('banner.types');
@@ -139,10 +127,8 @@ class BannerController extends Controller
 
     public function deleteImages(DeleteImagesRequest $request, Banner $banner): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('banner.error.delete_images')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('banner delete_images')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();

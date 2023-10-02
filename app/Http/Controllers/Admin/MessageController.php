@@ -15,10 +15,8 @@ class MessageController extends Controller
      */
     public function index(Request $request): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('message.error.index')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('message index')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $limit = $request->query('limit', 10);
@@ -35,10 +33,8 @@ class MessageController extends Controller
      */
     public function show(Message $message): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('message.error.show')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('message show')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         return response([
@@ -51,10 +47,8 @@ class MessageController extends Controller
      */
     public function destroy(Message $message): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('message.error.destroy')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('message destroy')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $message->delete();
@@ -69,10 +63,8 @@ class MessageController extends Controller
      */
     public function archived(Request $request): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('message.error.achieved')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('message archived')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $limit = $request->query('limit', 10);
@@ -89,10 +81,8 @@ class MessageController extends Controller
      */
     public function restore(string $id): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
-            return response([
-                'message' => __('message.error.restore')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('message restore')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $message = Message::onlyTrashed()->find($id);

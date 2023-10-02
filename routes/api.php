@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BannerController as BannerAdminController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Public\BannerController;
 use App\Http\Controllers\Admin\PostController as PostAdminController;
 use App\Http\Controllers\Public\PostController;
@@ -87,5 +88,13 @@ Route::middleware('locale')->group(function () {
 
         Route::get('subscriptions', [SubscriptionAdminController::class, 'index'])
             ->name('admin.subscriptions.index');
+
+        Route::get('roles/all', [RoleController::class, 'getRoles'])
+            ->name('admin.roles.get_oles');
+        Route::get('roles/permissions', [RoleController::class, 'getPermissions'])
+            ->name('admin.roles.get_permissions');
+
+        Route::apiResource('roles', RoleController::class)
+            ->names('admin.roles');
     });
 });

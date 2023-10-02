@@ -20,10 +20,8 @@ class UserController extends Controller
      */
     public function index(): Response
     {
-        if (!auth()->user()->hasRole('admin')) {
-            return response([
-                'message' => __('user.error.index')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('user index')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $users = User::with('image')->get();
@@ -38,10 +36,8 @@ class UserController extends Controller
      */
     public function store(UserRequest $request): Response
     {
-        if (!auth()->user()->hasRole('admin')) {
-            return response([
-                'message' => __('user.error.store')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('user store')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();
@@ -63,10 +59,8 @@ class UserController extends Controller
      */
     public function show(User $user): Response
     {
-        if (!auth()->user()->hasRole('admin')) {
-            return response([
-                'message' => __('user.error.show')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('user show')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $user->load('image');
@@ -81,10 +75,8 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user): Response
     {
-        if (!auth()->user()->hasRole('admin')) {
-            return response([
-                'message' => __('user.error.update')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('user update')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $data = $request->validated();
@@ -110,10 +102,8 @@ class UserController extends Controller
      */
     public function destroy(User $user): Response
     {
-        if (!auth()->user()->hasRole('admin')) {
-            return response([
-                'message' => __('user.error.destroy')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('user destroy')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $this->fileUploadService->deleteFile($user->image?->image);
@@ -130,10 +120,8 @@ class UserController extends Controller
      */
     public function activate(User $user): Response
     {
-        if (!auth()->user()->hasRole('admin')) {
-            return response([
-                'message' => __('user.error.activate')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('user activate')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $user->update(['active' => true]);
@@ -150,10 +138,8 @@ class UserController extends Controller
      */
     public function deactivate(User $user): Response
     {
-        if (!auth()->user()->hasRole('admin')) {
-            return response([
-                'message' => __('user.error.deactivate')
-            ], ResponseAlias::HTTP_FORBIDDEN);
+        if (!auth()->user()->hasPermissionTo('user deactivate')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
         }
 
         $user->update(['active' => false]);

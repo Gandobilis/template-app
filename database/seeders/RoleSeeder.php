@@ -61,8 +61,9 @@ class RoleSeeder extends Seeder
             ['name' => 'subscription index']
         ];
 
-        $admin = Role::firstOrCreate(['name' => 'admin']);
+        $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'sanctum']);
         foreach ($permissions as $permission) {
+            $permission['guard_name'] = 'sanctum';
             $_permission = Permission::firstOrCreate($permission);
             $admin->givePermissionTo($_permission);
         }
@@ -71,9 +72,9 @@ class RoleSeeder extends Seeder
             'name' => 'Lasha Gagnidze',
             'email' => 'lashadeveloper@gmail.com'
         ]);
-        $user->assignRole('admin');
+//        $user->assignRole($admin);
 
-        $contentManager = Role::firstOrCreate(['name' => 'content manager']);
+        $contentManager = Role::firstOrCreate(['name' => 'content manager', 'guard_name' => 'sanctum']);
         $contentManager->syncPermissions([
             'banner index',
             'banner show',
@@ -102,9 +103,9 @@ class RoleSeeder extends Seeder
             'name' => 'Lasha Gagnidze1',
             'email' => 'lashadeveloper1@gmail.com'
         ]);
-        $user1->assignRole('content manager');
+//        $user1->assignRole($contentManager);
 
-        $writer = Role::firstOrCreate(['name' => 'writer']);
+        $writer = Role::firstOrCreate(['name' => 'writer', 'guard_name' => 'sanctum']);
         $writer->syncPermissions([
             'post index',
             'post show',
@@ -117,6 +118,6 @@ class RoleSeeder extends Seeder
             'name' => 'Lasha Gagnidze2',
             'email' => 'lashadeveloper2@gmail.com'
         ]);
-        $user2->assignRole('writer');
+//        $user2->assignRole($writer);
     }
 }
