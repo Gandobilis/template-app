@@ -27,7 +27,7 @@ class RoleController extends Controller
 
     public function getRoles(): Response
     {
-        $roles = Role::select('id','name')->get();
+        $roles = Role::select('id', 'name')->get();
 
         return response([
             'roles' => $roles
@@ -36,7 +36,7 @@ class RoleController extends Controller
 
     public function getPermissions(): Response
     {
-        $permissions = Permission::select('id','name')->get();
+        $permissions = Permission::select('id', 'name')->get();
 
         return response([
             'roles' => $permissions
@@ -48,30 +48,17 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request): Response
     {
-        DB::beginTransaction();
-        try {
+        $data = $request->validated();
+        $role = Role::firstOrCreate([
+            'name' => $data['name'],
+            'guard_name' => 'web'
+        ]);
 
-            $data = $request->validated();
+        $role->syncPermissions($data['permission_ids']);
 
-            $role = Role::create([
-                'name' => $data['name']
-            ]);
-            $permissions = Permission::whereIn('id', $data['permission_ids'])
-                ->select('name')->get()->pluck('name');
-
-            $role->syncPermissions($permissions);
-
-            DB::commit();
-
-
-            return response([
-                'role' => $role
-            ], 201);
-        } catch (\Throwable $thr) {
-            DB::rollBack();
-
-            throw $thr;
-        }
+        return response([
+            'role' => $role
+        ], 201);
     }
 
     /**
@@ -94,10 +81,10 @@ class RoleController extends Controller
         $data = $request->validated();
 
         $role->update([
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
 
-        $role->permissions()->syncPermissions($data['permissions_id']);
+        $role->syncPermissions($data['permission_ids']);
 
         return response([
             'role' => $role,
