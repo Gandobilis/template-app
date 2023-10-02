@@ -15,7 +15,7 @@ class MessageController extends Controller
      */
     public function index(Request $request): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
                 'message' => trans('message.error.index')
             ], ResponseAlias::HTTP_FORBIDDEN);
@@ -35,7 +35,7 @@ class MessageController extends Controller
      */
     public function show(Message $message): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
                 'message' => trans('message.error.show')
             ], ResponseAlias::HTTP_FORBIDDEN);
@@ -51,7 +51,7 @@ class MessageController extends Controller
      */
     public function destroy(Message $message): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
                 'message' => trans('message.error.destroy')
             ], ResponseAlias::HTTP_FORBIDDEN);
@@ -69,7 +69,7 @@ class MessageController extends Controller
      */
     public function archived(Request $request): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
                 'message' => trans('message.error.achieved')
             ], ResponseAlias::HTTP_FORBIDDEN);
@@ -89,7 +89,7 @@ class MessageController extends Controller
      */
     public function restore(string $id): Response
     {
-        if (!auth()->user()->hasAnyRole(['admin', 'content manager', 'writer'])) {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
             return response([
                 'message' => trans('message.error.restore')
             ], ResponseAlias::HTTP_FORBIDDEN);
