@@ -59,21 +59,21 @@ Route::middleware('locale')->group(function () {
         Route::apiResource('banners', BannerAdminController::class)
             ->names('admin.banners');
         Route::put('banners/{banner}/images', [BannerAdminController::class, 'deleteImages'])
-            ->name('admin.banner.images');
+            ->name('admin.banner.images.delete');
         Route::get('banner/types', [BannerAdminController::class, 'types'])
             ->name('admin.banner.types');
 
         Route::apiResource('sections', SectionAdminController::class)
             ->names('admin.sections');
         Route::put('sections/{section}/images', [SectionAdminController::class, 'deleteImages'])
-            ->name('admin.section.images');
+            ->name('admin.section.images.delete');
         Route::get('section/types', [SectionAdminController::class, 'types'])
             ->name('admin.section.types');
 
         Route::apiResource('posts', PostAdminController::class)
             ->names('admin.posts');
         Route::put('posts/{post}/images', [PostAdminController::class, 'deleteImages'])
-            ->name('admin.post.images');
+            ->name('admin.post.images.delete');
 
         Route::apiResource('messages', MessageAdminController::class)
             ->names('admin.messages')

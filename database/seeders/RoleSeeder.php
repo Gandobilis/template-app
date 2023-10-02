@@ -14,54 +14,63 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $permisions = [
+        $permissions = [
             // User permissions
             ['name' => 'user index'],
             ['name' => 'user show'],
             ['name' => 'user store'],
             ['name' => 'user update'],
             ['name' => 'user destroy'],
+            ['name' => 'user activate'],
+            ['name' => 'user deactivate'],
+
+            // Banner permissions
+            ['name' => 'banner index'],
+            ['name' => 'banner show'],
+            ['name' => 'banner store'],
+            ['name' => 'banner update'],
+            ['name' => 'banner destroy'],
+            ['name' => 'banner types'],
+            ['name' => 'banner delete_images'],
+
             // Section permissions
             ['name' => 'section index'],
             ['name' => 'section show'],
             ['name' => 'section store'],
             ['name' => 'section update'],
             ['name' => 'section destroy'],
+            ['name' => 'section types'],
+            ['name' => 'section delete_images'],
+
             // Post permission
             ['name' => 'post index'],
             ['name' => 'post show'],
             ['name' => 'post store'],
             ['name' => 'post update'],
             ['name' => 'post destroy'],
-        ];
-        $admin = Role::firstOrCreate(['name' => 'admin']);
-        foreach ($permisions as $permission) {
-            $per = Permission::firstOrCreate($permission);
-            $admin->givePermissionTo($per);
-        }
-        $contentManager = Role::firstOrCreate(['name' => 'content manager']);
-        $contentManager->syncPermissions([
-            'section index',
-            'section show',
-            'section store',
-            'section update',
-            'section destroy',
-            'post index',
-            'post show',
-            'post store',
-            'post update',
-            'post destroy',
-        ]);
+            ['name' => 'post delete_images'],
 
-        $writer = Role::firstOrCreate(['name' => 'writer']);
-        $writer->syncPermissions([
-            'post index',
-            'post show',
-            'post store',
-            'post update',
-            'post destroy',
+            // Message permissions
+            ['name' => 'message index'],
+            ['name' => 'message show'],
+            ['name' => 'message destroy'],
+            ['name' => 'message archived'],
+            ['name' => 'message restore'],
+
+            // Subscription permissions
+            ['name' => 'subscription index']
+        ];
+
+        $admin = Role::firstOrCreate(['name' => 'admin']);
+        foreach ($permissions as $permission) {
+            $_permission = Permission::firstOrCreate($permission);
+            $admin->givePermissionTo($_permission);
+        }
+
+        $user = User::factory()->create([
+            'name' => 'Lasha Gagnidze',
+            'email' => 'lashadeveloper@gmail.com'
         ]);
-        $user = User::first();
         $user->assignRole('admin');
     }
 }
