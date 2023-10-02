@@ -72,5 +72,51 @@ class RoleSeeder extends Seeder
             'email' => 'lashadeveloper@gmail.com'
         ]);
         $user->assignRole('admin');
+
+        $contentManager = Role::firstOrCreate(['name' => 'content manager']);
+        $contentManager->syncPermissions([
+            'banner index',
+            'banner show',
+            'banner store',
+            'banner update',
+            'banner destroy',
+            'banner types',
+            'banner delete_images',
+
+            'section index',
+            'section show',
+            'section store',
+            'section update',
+            'section destroy',
+            'section types',
+            'section delete_images',
+
+            'post index',
+            'post show',
+            'post store',
+            'post update',
+            'post destroy',
+            'post delete_images'
+        ]);
+        $user1 = User::factory()->create([
+            'name' => 'Lasha Gagnidze1',
+            'email' => 'lashadeveloper1@gmail.com'
+        ]);
+        $user1->assignRole('content manager');
+
+        $writer = Role::firstOrCreate(['name' => 'writer']);
+        $writer->syncPermissions([
+            'post index',
+            'post show',
+            'post store',
+            'post update',
+            'post destroy',
+            'post delete_images'
+        ]);
+        $user2 = User::factory()->create([
+            'name' => 'Lasha Gagnidze2',
+            'email' => 'lashadeveloper2@gmail.com'
+        ]);
+        $user2->assignRole('writer');
     }
 }
