@@ -19,6 +19,12 @@ class BannerController extends Controller
 
     public function index(Request $request): Response
     {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
+            return response([
+                'message' => trans('banner.error.index')
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $limit = $request->query('limit', 10);
 
         $banners = Banner::with('image')->paginate($limit);
@@ -30,6 +36,12 @@ class BannerController extends Controller
 
     public function show(Banner $banner): Response
     {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
+            return response([
+                'message' => trans('banner.error.show')
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $banner->load('images');
 
         return response([
@@ -39,6 +51,12 @@ class BannerController extends Controller
 
     public function store(BannerRequest $request): Response
     {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
+            return response([
+                'message' => trans('banner.error.store')
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $data = $request->validated();
         $images = $data['images'];
         unset($data['images']);
@@ -53,13 +71,19 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => trans('banner.store'),
+            'message' => trans('banner.success.store'),
             'banner' => $banner
         ], ResponseAlias::HTTP_CREATED);
     }
 
     public function update(BannerRequest $request, Banner $banner): Response
     {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
+            return response([
+                'message' => trans('banner.error.update')
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $data = $request->validated();
         $images = $data['images'];
         unset($data['images']);
@@ -74,13 +98,19 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => trans('banner.update'),
+            'message' => trans('banner.success.update'),
             'banner' => $banner
         ], ResponseAlias::HTTP_OK);
     }
 
     public function destroy(Banner $banner): Response
     {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
+            return response([
+                'message' => trans('banner.error.destroy')
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $banner->images()->each(function ($image) {
             $image->delete();
         });
@@ -88,12 +118,18 @@ class BannerController extends Controller
         $banner->delete();
 
         return response([
-            'message' => trans('banner.destroy')
+            'message' => trans('banner.success.destroy')
         ], ResponseAlias::HTTP_OK);
     }
 
     public function types(): Response
     {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
+            return response([
+                'message' => trans('banner.error.types')
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $types = config('banner.types');
 
         return response([
@@ -103,6 +139,12 @@ class BannerController extends Controller
 
     public function deleteImages(DeleteImagesRequest $request, Banner $banner): Response
     {
+        if (!auth()->user()->hasAnyRole(['admin', 'content manager'])) {
+            return response([
+                'message' => trans('banner.error.delete_images')
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $data = $request->validated();
 
         $banner->images()->whereIn('id', $data['image_ids'])->delete();
@@ -110,7 +152,7 @@ class BannerController extends Controller
         $banner->load('images');
 
         return response([
-            'message' => trans('banner.images_delete'),
+            'message' => trans('banner.success.delete_images'),
             'banner' => $banner
         ], ResponseAlias::HTTP_OK);
     }
