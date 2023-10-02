@@ -41,7 +41,7 @@ class UserController extends Controller
         $user->load('image');
 
         return response([
-            'message' => trans('user.store'),
+            'message' => trans('user.success.store'),
             'user' => $user
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -76,7 +76,7 @@ class UserController extends Controller
         $user->load('image');
 
         return response([
-            'message' => trans('user.update'),
+            'message' => trans('user.success.update'),
             'user' => $user
         ], ResponseAlias::HTTP_OK);
     }
@@ -91,7 +91,7 @@ class UserController extends Controller
         $user->delete();
 
         return response([
-            'message' => trans('user.destroy'),
+            'message' => trans('user.success.destroy'),
         ], ResponseAlias::HTTP_OK); // ResponseAlias::HTTP_NO_CONTENT if the response is empty :)
     }
 
@@ -104,7 +104,7 @@ class UserController extends Controller
         $user->load('image');
 
         return response([
-            'message' => trans('user.activate'),
+            'message' => trans('user.success.activate'),
             'user' => $user
         ], ResponseAlias::HTTP_OK);
     }
@@ -118,7 +118,7 @@ class UserController extends Controller
         $user->load('image');
 
         return response([
-            'message' => trans('user.deactivate'),
+            'message' => trans('user.success.deactivate'),
             'user' => $user
         ], ResponseAlias::HTTP_OK);
     }
