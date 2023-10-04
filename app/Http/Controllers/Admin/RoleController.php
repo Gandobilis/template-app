@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RoleRequest;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
-use SebastianBergmann\Diff\Exception;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class RoleController extends Controller
 {
@@ -22,7 +20,7 @@ class RoleController extends Controller
 
         return response([
             'roles' => $roles
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function getRoles(): Response
@@ -31,7 +29,7 @@ class RoleController extends Controller
 
         return response([
             'roles' => $roles
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     public function getPermissions(): Response
@@ -39,8 +37,8 @@ class RoleController extends Controller
         $permissions = Permission::select('id', 'name')->get();
 
         return response([
-            'roles' => $permissions
-        ], 200);
+            'permissions' => $permissions
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -49,6 +47,7 @@ class RoleController extends Controller
     public function store(RoleRequest $request): Response
     {
         $data = $request->validated();
+
         $role = Role::firstOrCreate([
             'name' => $data['name'],
             'guard_name' => 'web'
@@ -58,7 +57,7 @@ class RoleController extends Controller
 
         return response([
             'role' => $role
-        ], 201);
+        ], ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -70,7 +69,7 @@ class RoleController extends Controller
 
         return response([
             'role' => $role
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
@@ -88,17 +87,16 @@ class RoleController extends Controller
 
         return response([
             'role' => $role,
-        ], 200);
+        ], ResponseAlias::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
+    public function destroy(Role $role): Response
     {
         $role->delete();
 
-        return response([
-        ], 204);
+        return response(status: ResponseAlias::HTTP_NO_CONTENT);
     }
 }
