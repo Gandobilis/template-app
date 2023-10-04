@@ -90,7 +90,7 @@ Route::middleware('locale')->group(function () {
             ->name('admin.subscriptions.index');
 
         Route::get('roles/all', [RoleController::class, 'getRoles'])
-            ->name('admin.roles.get_oles');
+            ->name('admin.roles.get_roles');
         Route::get('roles/permissions', [RoleController::class, 'getPermissions'])
             ->name('admin.roles.get_permissions');
 
