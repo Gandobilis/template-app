@@ -83,7 +83,7 @@ class RoleController extends Controller
             'name' => $data['name'],
         ]);
 
-        $role->syncPermissions($data['permission_ids']);
+        $role->givePermissionTo($data['permission_ids']);
 
         return response([
             'role' => $role,
