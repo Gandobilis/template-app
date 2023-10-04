@@ -15,6 +15,15 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
+            // Role permissions
+            ['name' => 'role index'],
+            ['name' => 'role show'],
+            ['name' => 'role store'],
+            ['name' => 'role update'],
+            ['name' => 'role destroy'],
+            ['name' => 'role get_roles'],
+            ['name' => 'role get_permissions'],
+
             // User permissions
             ['name' => 'user index'],
             ['name' => 'user show'],

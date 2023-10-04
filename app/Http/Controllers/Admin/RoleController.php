@@ -16,6 +16,10 @@ class RoleController extends Controller
      */
     public function index(): Response
     {
+        if (!auth()->user()->hasPermissionTo('role index')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $roles = Role::paginate(10);
 
         return response([
@@ -25,6 +29,10 @@ class RoleController extends Controller
 
     public function getRoles(): Response
     {
+        if (!auth()->user()->hasPermissionTo('role get_roles')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $roles = Role::select('id', 'name')->get();
 
         return response([
@@ -34,6 +42,10 @@ class RoleController extends Controller
 
     public function getPermissions(): Response
     {
+        if (!auth()->user()->hasPermissionTo('role get_permissions')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $permissions = Permission::select('id', 'name')->get();
 
         return response([
@@ -46,6 +58,10 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request): Response
     {
+        if (!auth()->user()->hasPermissionTo('role store')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $data = $request->validated();
 
         $role = Role::firstOrCreate([
@@ -65,6 +81,10 @@ class RoleController extends Controller
      */
     public function show(Role $role): Response
     {
+        if (!auth()->user()->hasPermissionTo('role show')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $role->load('permissions');
 
         return response([
@@ -77,6 +97,10 @@ class RoleController extends Controller
      */
     public function update(RoleRequest $request, Role $role): Response
     {
+        if (!auth()->user()->hasPermissionTo('role update')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $data = $request->validated();
 
         $role->update([
@@ -95,6 +119,10 @@ class RoleController extends Controller
      */
     public function destroy(Role $role): Response
     {
+        if (!auth()->user()->hasPermissionTo('role destroy')) {
+            abort(ResponseAlias::HTTP_FORBIDDEN);
+        }
+
         $role->delete();
 
         return response(status: ResponseAlias::HTTP_NO_CONTENT);
