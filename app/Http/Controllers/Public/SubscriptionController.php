@@ -22,7 +22,7 @@ class SubscriptionController extends Controller
         );
 
         return response([
-            'message' => __('subscription.subscribe'),
+            'message' => __('subscription.success.subscribe'),
             'subscription' => $subscription
         ], ResponseAlias::HTTP_CREATED);
     }
@@ -35,7 +35,7 @@ class SubscriptionController extends Controller
         $subscription->delete();
 
         return response([
-            'message' => __('subscription.unsubscribe'),
+            'message' => __('subscription.success.unsubscribe'),
         ], ResponseAlias::HTTP_OK);
     }
 }

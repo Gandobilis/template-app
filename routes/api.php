@@ -31,7 +31,7 @@ Route::middleware('locale')->group(function () {
 
     Route::post('subscription/subscribe', [SubscriptionController::class, 'subscribe'])
         ->name('subscribe');
-    Route::put('subscription/unsubscribe/{token}/{subscription:email}', [SubscriptionController::class, 'unsubscribe'])
+    Route::put('subscription/unsubscribe/{subscription:email}', [SubscriptionController::class, 'unsubscribe'])
         ->name('unsubscribe');
 
     Route::apiResource('banners', BannerController::class)
