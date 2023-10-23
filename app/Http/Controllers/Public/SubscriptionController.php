@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Public\SubscriptionRequest;
 use App\Models\Subscription;
 use Illuminate\Http\Response;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class SubscriptionController extends Controller
@@ -17,11 +16,9 @@ class SubscriptionController extends Controller
     public function subscribe(SubscriptionRequest $request): Response
     {
         $data = $request->validated();
-        $data['token'] = Str::random();
 
-        $subscription = Subscription::updateOrCreate(
-            ['email' => $data['email']],
-            $data
+        $subscription = Subscription::firstOrCreate(
+            ['email' => $data['email']]
         );
 
         return response([
@@ -33,15 +30,12 @@ class SubscriptionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function unsubscribe(string $token, Subscription $subscription): Response
+    public function unsubscribe(Subscription $subscription): Response
     {
-        $subscription->update([
-            'active' => false
-        ]);
+        $subscription->delete();
 
         return response([
             'message' => __('subscription.unsubscribe'),
-            'subscription' => $subscription
         ], ResponseAlias::HTTP_OK);
     }
 }
